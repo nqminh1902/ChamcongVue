@@ -1,0 +1,105 @@
+.btn {
+    min-width: 80px;
+    padding: 0 16px;
+    height: 36px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    color: #212121;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #E6E6E6;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+  }
+  .pri-btn{
+    color: #FFFFFF;
+    background-color: var(--primary);
+    border: none;
+    outline: none;
+    font-weight: 700;
+  }
+  .pri-btn:hover{
+    color: #FFFFFF;
+    background-color: var(--primary-hover);
+  }
+  .delete-btn{
+    color: white;
+    background-color: red;
+  }
+  .btn.delete-btn:hover{
+    color: white;
+    background-color: red;
+  }
+  .remove-checkall{
+    color: #E61D1D;
+    border: none;
+    background-color: transparent;
+  }
+  .remove-checkall:hover{
+    background-color: transparent;
+  }
+  .remove-checkall:focus{
+    outline: none;
+  }
+  .icon-plus{
+    font-size: 16px;
+    color: white;
+  }
+  .btn-border{
+    border: 1px solid ;
+  }
+  .btn-refuse{
+    color: #E61D1D;
+    border: 1px solid #F44336;
+  }
+  .btn-refuse:hover{
+    background-color: #f3baba;
+  }
+  .btn-agree{
+    color: #00D55C;
+    border: 1px solid #00D55C;
+  }
+  .btn-agree:hover{
+    background-color: #c0f8d8;
+  }
+  .btn-export{
+    border: 1px solid #DDDDEB;
+    color: #212121;
+  }
+  .btn-export:hover{
+    background-color: #DDDDEB;
+  }
+  .btn-delete{
+    border: 1px solid #EF292F;
+    color: #EF292F;
+  }
+  .btn-delete:hover{
+    background-color: #f3baba;
+  }
+  .outline-btn-icon{
+    padding: 0px;
+    min-width: 36px;
+  }
+  .outline-btn-icon .icon-export{
+    margin-right: 0px;
+  }
+  .outline-btn-icon:hover{
+    border: 1px solid var(--primary);
+  }
+  .outline-btn-icon:hover .icon-export{
+    background-color: var(--primary);
+  }
+  .outline-btn-icon:hover .icon-refresh{
+    background-color: var(--primary);
+  }
+  .outline-btn-icon:hover .icon-setting{
+    background-color: var(--primary);
+  }
+  .outline-btn-icon:hover .icon-filter{
+    background-color: var(--primary);
+  }

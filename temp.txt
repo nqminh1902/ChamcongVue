@@ -1,0 +1,8 @@
+<DxSearchPanel
+                            :visible="true"
+                            :width="320"
+                            placeholder="Tìm kiếm"
+                            :highlightSearchText="true"
+                        />
+                        <DxExport :enabled="true" />
+                    <DxColumnChooser :enabled="true" />

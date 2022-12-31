@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("../css/layout/header.css");
+@import url("../css/constans.css");
+@import url("./view/employeeList.css");
+@import url("./component/button.css");
+@import url("./component/dropdown.css");
+@import url("./component/combobox.css");
+@import url("./component/table.css");
+@import url("./view/employeeDetails.css");
+@import url("./component/popup.css");
+@import url("./component/status.css");
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+}
+.marleft-16{
+    margin-left: 16px;
+}
+.marleft-12{
+    margin-left: 12px;
+}
+.marleft-6{
+    margin-left: 6px;
+}
+.marleft-8{
+    margin-left: 8px;
+}
+.marleft-24{
+    margin-left: 24px;
+}
+.marright-24{
+    margin-right: 24px;
+
+}
+.marright-6{
+    margin-right: 6px;
+}
+.active span{
+    font-weight: bold;
+}
+.marright-8{
+    margin-right: 8px;
+}
+.martop-16{
+ margin-top: 16px;
+}
+.martop-32{
+    margin-top: 32px;
+   }
+   .marleft-12{
+    margin-left: 12px;
+   }
+.padding-left16{
+    padding-left: 16px;
+}
+.padding-right16{
+    padding-right: 16px;
+}
+.form-business-travel-note{
+    display: flex;
+    align-items: center;
+}
+.flex-1{
+    flex: 1;
+}
+.form-business-travel-description{
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.form-business-travel-description p{
+    color: rgb(158, 167, 163);
+}
+.form-business-travel-description span{
+    color: var(--primary);
+    font-weight: 700;
+}
+.form-business-travel-option{
+    display: flex;
+    align-items: center;
+    height: 38px;
+    margin-top: 8px;
+}
+.form-business-travel-option .active{
+    color: var(--primary);
+} 
+.marright-40{
+    margin-right: 40px;
+}
+.form-business-travel-option span{
+    font-weight: 700;
+    color: black;
+    position: relative;
+    cursor: pointer;
+}
+.form-business-travel-option .option-item:hover
+{
+    color: var(--primary);
+}
+.option-item.active.option-item::before,
+.option-item:hover.option-item::before{
+    display: block;
+}
+.form-business-travel-option .option-item::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary);
+    bottom: -9px;
+    display: none;
+}
+.hr-class{
+    border: 0.1px solid #e0e0e0;
+    width: calc(100vw - 48px);
+    margin-left: -40px!important;
+}
+.icon-push{
+    font-size: 20px;
+}
+.icon-edit{
+    font-size: 14px;
+}
+.icon-refuse{
+    background-image: url("../assets/icon/iconChamCong.svg");
+    background-position:-170px -98px;
+    width: 20px;
+    height: 20px;
+}
+.icon-agree{
+    background-image: url("../assets/icon/iconChamCong.svg");
+    background-position: -195px -98px;
+    width: 20px;
+    height: 20px;
+}
+.icon-export{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -26px -27px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-delete{
+    background-image: url("../assets/icon/iconChamCong.svg");
+    background-position: -171px -27px;
+    width: 20px;
+    height: 20px;
+}
+.icon-refresh{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -52px -4px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 16px;
+    height: 16px;
+}
+.icon-setting{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -220px -28px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 16px;
+    height: 16px;
+}
+.icon-filter{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -244px -52px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 16px;
+    height: 16px;
+}
+.icon-error{
+    position: absolute;
+    font-size: 20px;
+    color: red;
+    right: 28px;
+    top:8px;
+    display: none;
+    background-color: white;
+}
+.icon-errorv2{
+    position: absolute;
+    font-size: 20px;
+    color: red;
+    right: 8px;
+    top:8px;
+    display: block;
+    background-color: white;
+}
+.icon-dropdown{
+    position: absolute;
+    right: 8px;
+    top: 11px;
+}
+.display-none{
+    display: none;
+}
+.icon-datebox{
+    background-image: url("../assets/icon/iconChamCong.svg");
+    background-position: -75px -3px;
+    width: 20px;
+    height: 20px;
+}
+.dx-widget{
+    font-size: 14px;
+    font-family: "Roboto", sans-serif !important;
+}
+.dx-list-item .avatar{
+    width: 40px;
+    height: 40px;
+}

@@ -1,0 +1,106 @@
+.combobox{
+height: 32px;
+width: calc(100% - 30px);
+border: none;
+outline: none;
+}
+.combobox input{
+    border: none;
+}
+.combobox-icon{
+    font-size: 14px;
+    padding: 8px 0px 8px 12px; 
+}
+.form-dropdown {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+.dropdown {
+    width: 100%;
+    height: 36px;
+    padding: 0px 12px;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+    background-color: #ffffff;
+    color: #1f1f1f;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    cursor: pointer;
+}
+.dropdown:focus {
+    outline: none;
+    border: 1px solid var(--primary);
+}
+.dropup{
+    transform: rotate(180deg);
+}
+.dropdown-list {
+    top: 36px;
+    left: 0px;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    box-shadow: 4px 0px 16px rgba(23, 27, 42, 0.24);
+    list-style: none;
+    margin-top: 0px;
+    background: #ffffff;
+    display: block;
+    cursor: pointer;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.dropdown-list-item {
+    width: 100%;
+    height: auto;
+    padding: 12px 8px;
+    font-weight: 400;
+    font-size: 14px;
+    color: #1f1f1f;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+.dropdown-list-item:hover {
+    background-color: var(--hover);
+    color: var(--primary);
+}
+.dropdown-list-item.active {
+    background-color: var(--hover);
+    color: var(--primary);
+
+}
+.dropdown-list-item.active p{
+    color: var(--primary);
+}
+
+.absolute-dropdown{
+    position: absolute;
+    top: 11px;
+    right: 4px;
+    margin: 0px 4px;
+    transition: linear 0.2s;
+}
+.dropdown.form-input-error + .error-text{
+    display: block;
+}
+.overlay-feature{
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    z-index: 1;
+}
+.validate-error{
+    border: 1px solid red;
+}
+.validate-error + .icon-error{
+    display: block;
+}

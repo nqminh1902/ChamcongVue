@@ -1,0 +1,26 @@
+.status-wrap{
+    width: auto;
+    padding: 6px;
+    height: 33px;
+    border-radius: 4px;
+    font-size: 14px;   
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.status-approved{
+    color: #00D55C;
+    border: 1px solid #00D55C;
+    background-color: #B9F8E4;
+}
+.status-notapproved{
+    color: #6153DF;
+    border: 1px solid #6153DF;
+    background-color: #EBE9FB;
+}
+.status-refuse{
+    color: #EF292F;
+    border: 1px solid #EF292F;
+    background-color: #FEE8E7;
+}
