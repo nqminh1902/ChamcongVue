@@ -315,11 +315,21 @@ color: #6e6a67;
     color: #212121 !important;
 }
 .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item-content{
-    padding: 12px 18px;
+    padding: 14px 18px;
 }
 .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dropdown-flex.status{
     padding: 7px 9px;
 }
 .dx-dropdowneditor-input-wrapper .dx-texteditor.dx-editor-outlined{
  border: none;
+}
+.dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-focused{
+    background-color: var(--hover);
+    color: #212121;
+}
+.dx-tag-content{
+    background-color: #e6e8ed;
+}
+.Name{
+    line-height: 24px;
 }

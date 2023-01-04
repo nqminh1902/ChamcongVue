@@ -4,14 +4,13 @@
             <div v-if="!isEditing" class="content-title">
                 <div class="content-title-left">
                     <DxButton @click="backPage" icon="arrowleft" />
-
                     <h2 class="content-title-text">
                         {{ webTitle }}
                     </h2>
                 </div>
                 <div class="content-title-btn">
                     <BaseButtonVue
-                        title="Hủy"
+                        :title="language.title.cancel"
                         @click="backPage"
                         class="marright-8"
                         :tabIndex="14"
@@ -19,7 +18,7 @@
                     />
 
                     <BaseButtonVue
-                        title="Lưu"
+                        :title="language.title.save"
                         class="pri-btn"
                         @click="Save"
                         :tabIndex="13"
@@ -31,13 +30,13 @@
                     <DxButton icon="arrowleft" @click="backPage" />
 
                     <h2 class="content-title-text">
-                        Chi tiết đề nghị đi công tác
+                        {{ language.missionDetailText.title }}
                     </h2>
                 </div>
                 <div class="content-title-btn">
                     <BaseButtonVue
                         class="pri-btn"
-                        title="Sửa"
+                        :title="language.title.edit"
                         id="edit"
                         @click="Edit"
                         :tabIndex="13"
@@ -51,7 +50,10 @@
                         <div class="form-business-travel-left">
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Người đề nghị <span>*</span>
+                                    {{
+                                        language.missionDetailText.employeeName
+                                    }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -79,7 +81,9 @@
                                         v-model:value="
                                             missionAllowance.employeeID
                                         "
-                                        noDataText="Không tìm thấy bản ghi"
+                                        :noDataText="
+                                            language.missionDetailText.noData
+                                        "
                                         :tabIndex="1"
                                         @contentReady="initFocus"
                                     >
@@ -104,7 +108,8 @@
                                                 </div>
                                                 <div class="Name">
                                                     <p class="dropdown-name">
-                                                        {{ data.employeeName
+                                                        {{
+                                                            `${data.employeeName} `
                                                         }}<span
                                                             style="
                                                                 font-weight: 400;
@@ -128,13 +133,19 @@
                                         show-event="dxhoverstart"
                                         hide-event="dxhoverend"
                                     >
-                                        <b>Người đề nghị không được để trống</b>
+                                        <b>{{
+                                            language.ErrorMessage
+                                                .employeeMessage
+                                        }}</b>
                                     </DxTooltip>
                                 </div>
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Đơn vị công tác
+                                    {{
+                                        language.missionDetailText
+                                            .oganizationName
+                                    }}
                                 </div>
                                 <div class="dx-field-value">
                                     <DxTextBox
@@ -153,7 +164,8 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Ngày đề nghị <span>*</span>
+                                    {{ language.missionDetailText.requestDate }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -190,16 +202,23 @@
                                         show-event="dxhoverstart"
                                         hide-event="dxhoverend"
                                     >
-                                        <b>Ngày đề nghị không được để trống</b>
+                                        <b>{{
+                                            language.ErrorMessage.requiredToDate
+                                        }}</b>
                                     </DxTooltip>
                                     <div class="value-details" v-if="isEditing">
-                                        {{ missionAllowance.requestDate }}
+                                        {{
+                                            formatDate(
+                                                missionAllowance.requestDate
+                                            )
+                                        }}
                                     </div>
                                 </div>
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Ngày đi <span>*</span>
+                                    {{ language.missionDetailText.fromDate }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -238,13 +257,18 @@
                                         <b>{{ fromDateMessage }}</b>
                                     </DxTooltip>
                                     <div class="value-details" v-if="isEditing">
-                                        {{ missionAllowance.fromDate }}
+                                        {{
+                                            formatDate(
+                                                missionAllowance.fromDate
+                                            )
+                                        }}
                                     </div>
                                 </div>
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Ngày về <span>*</span>
+                                    {{ language.missionDetailText.toDate }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -281,13 +305,15 @@
                                         <b>{{ toDateMessage }}</b>
                                     </DxTooltip>
                                     <div class="value-details" v-if="isEditing">
-                                        {{ missionAllowance.toDate }}
+                                        {{
+                                            formatDate(missionAllowance.toDate)
+                                        }}
                                     </div>
                                 </div>
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Số ngày đi công tác
+                                    {{ language.missionDetailText.leaveDay }}
                                 </div>
                                 <div class="dx-field-value">
                                     <DxNumberBox
@@ -306,7 +332,8 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Địa điểm công tác <span>*</span>
+                                    {{ language.missionDetailText.Location }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -334,10 +361,10 @@
                                             show-event="dxhoverstart"
                                             hide-event="dxhoverend"
                                         >
-                                            <b
-                                                >Địa điểm công tác không được để
-                                                trống</b
-                                            >
+                                            <b>{{
+                                                language.ErrorMessage
+                                                    .locaionMessage
+                                            }}</b>
                                         </DxTooltip>
                                     </div>
 
@@ -348,7 +375,8 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Lý do công tác <span>*</span>
+                                    {{ language.missionDetailText.purpose }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -376,10 +404,10 @@
                                             show-event="dxhoverstart"
                                             hide-event="dxhoverend"
                                         >
-                                            <b
-                                                >Lý do công tác không được để
-                                                trống</b
-                                            >
+                                            <b>{{
+                                                language.ErrorMessage
+                                                    .purposeMessage
+                                            }}</b>
                                         </DxTooltip>
                                     </div>
                                     <div class="value-details" v-if="isEditing">
@@ -390,7 +418,9 @@
                         </div>
                         <div class="form-business-travel-right">
                             <div class="dx-field">
-                                <div class="dx-field-label">Yêu cầu hỗ trợ</div>
+                                <div class="dx-field-label">
+                                    {{ language.missionDetailText.request }}
+                                </div>
                                 <div class="dx-field-value">
                                     <DxTextArea
                                         v-model:value="missionAllowance.request"
@@ -405,10 +435,13 @@
                                 </div>
                             </div>
                             <div class="dx-field">
-                                <div class="dx-field-label">Người hỗ trợ</div>
+                                <div class="dx-field-label">
+                                    {{ language.missionDetailText.support }}
+                                </div>
                                 <div class="dx-field-value">
                                     <DxTagBox
                                         :visible="!isEditing"
+                                        :searchEnabled="true"
                                         :data-source="listSupport"
                                         display-expr="employeeName"
                                         value-expr="employeeID"
@@ -419,7 +452,9 @@
                                         :buttons="buttonTagBox"
                                         :accept-custom-value="true"
                                         :value="supportIDArray"
-                                        noDataText="Không tìm thấy bản ghi"
+                                        :noDataText="
+                                            language.missionDetailText.noData
+                                        "
                                         tabIndex="9"
                                     >
                                         <template #support="{ data }">
@@ -427,13 +462,16 @@
                                                 class="dropdown-list-item support"
                                             >
                                                 <div class="avatar marright-6">
-                                                    <span class="avatar-name"
-                                                        >ĐL</span
-                                                    >
+                                                    <span class="avatar-name">{{
+                                                        convertString(
+                                                            data.employeeName
+                                                        )
+                                                    }}</span>
                                                 </div>
                                                 <div class="Name">
                                                     <p class="dropdown-name">
-                                                        {{ data.employeeName
+                                                        {{
+                                                            `${data.employeeName} `
                                                         }}<span
                                                             style="
                                                                 font-weight: 400;
@@ -463,7 +501,8 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Người duyệt <span>*</span>
+                                    {{ language.missionDetailText.approvedName
+                                    }}<span> *</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -484,7 +523,9 @@
                                         @opened="onApprovalScroll"
                                         :accept-custom-value="true"
                                         :value="missionAllowance.approvalToID"
-                                        noDataText="Không tìm thấy bản ghi"
+                                        :noDataText="
+                                            language.missionDetailText.noData
+                                        "
                                         :tabIndex="10"
                                     >
                                         <template #imageIcon="{}">
@@ -508,7 +549,8 @@
                                                 </div>
                                                 <div class="Name">
                                                     <p class="dropdown-name">
-                                                        {{ data.employeeName
+                                                        {{
+                                                            `${data.employeeName} `
                                                         }}<span
                                                             style="
                                                                 font-weight: 400;
@@ -532,7 +574,10 @@
                                         show-event="dxhoverstart"
                                         hide-event="dxhoverend"
                                     >
-                                        <b>Người duyệt không được để trống</b>
+                                        <b>{{
+                                            language.ErrorMessage
+                                                .approvedMessage
+                                        }}</b>
                                     </DxTooltip>
                                     <div class="value-details" v-if="isEditing">
                                         {{ missionAllowance.approvalName }}
@@ -541,11 +586,14 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Người liên quan
+                                    {{
+                                        language.missionDetailText.relationship
+                                    }}
                                 </div>
                                 <div class="dx-field-value">
                                     <DxTagBox
                                         :visible="!isEditing"
+                                        :searchEnabled="true"
                                         :data-source="listRelationship"
                                         display-expr="employeeName"
                                         value-expr="employeeID"
@@ -558,7 +606,9 @@
                                         @opened="onRelationshipScroll"
                                         :accept-custom-value="true"
                                         :value="relationShipIDArray"
-                                        noDataText="Không tìm thấy bản ghi"
+                                        :noDataText="
+                                            language.missionDetailText.noData
+                                        "
                                         :tabIndex="11"
                                     >
                                         <template #relationShip="{ data }">
@@ -566,13 +616,16 @@
                                                 class="dropdown-list-item relationship"
                                             >
                                                 <div class="avatar marright-6">
-                                                    <span class="avatar-name"
-                                                        >ĐL</span
-                                                    >
+                                                    <span class="avatar-name">{{
+                                                        convertString(
+                                                            data.employeeName
+                                                        )
+                                                    }}</span>
                                                 </div>
                                                 <div class="Name">
                                                     <p class="dropdown-name">
-                                                        {{ data.employeeName
+                                                        {{
+                                                            `${data.employeeName} `
                                                         }}<span
                                                             style="
                                                                 font-weight: 400;
@@ -602,7 +655,8 @@
                             </div>
                             <div class="dx-field">
                                 <div class="dx-field-label">
-                                    Trạng thái <span>*</span>
+                                    {{ language.missionDetailText.status }}
+                                    <span>*</span>
                                 </div>
                                 <div
                                     class="dx-field-value"
@@ -613,7 +667,7 @@
                                     <DxSelectBox
                                         drop-down-button-template="imageIcon"
                                         :visible="!isEditing"
-                                        :data-source="statusDropdown"
+                                        :data-source="language.statusDropdown"
                                         :searchEnabled="true"
                                         display-expr="statusName"
                                         value-expr="id"
@@ -647,7 +701,9 @@
                                         show-event="dxhoverstart"
                                         hide-event="dxhoverend"
                                     >
-                                        <b>Trang thái không được để trống</b>
+                                        <b>{{
+                                            language.ErrorMessage.statusMessage
+                                        }}</b>
                                     </DxTooltip>
                                     <div class="value-details" v-if="isEditing">
                                         <BaseStatusVue
@@ -660,23 +716,28 @@
                     </div>
                     <div class="content-full martop-32">
                         <h2 class="content-title-text">
-                            Danh sách nhân viên đi công tác
+                            {{ language.missionDetailText.tableTitle }}
                             <span
                                 class="selected-employee marleft-16"
                                 v-if="selectedRowsData.length > 0"
                             >
-                                Đã chọn <b>{{ selectedRowsData.length }}</b>
+                                {{ language.missionDetailText.selected }}
+                                <b>{{ selectedRowsData.length }}</b>
                                 <span
                                     class="marleft-16"
                                     style="color: blue; cursor: pointer"
                                     @click="clearSelection"
-                                    >Bỏ chọn</span
+                                    >{{
+                                        language.missionDetailText.deSelected
+                                    }}</span
                                 >
                                 <span
                                     class="marleft-16"
                                     style="color: red; cursor: pointer"
                                     @click="removeSelectionItem"
-                                    >Loại bỏ</span
+                                    >{{
+                                        language.missionDetailText.remove
+                                    }}</span
                                 >
                             </span>
                         </h2>
@@ -685,11 +746,11 @@
                             class="business-travel-list"
                         >
                             <span class="no-data"
-                                >Chưa có dữ liệu
+                                >{{ language.missionDetailText.noData }}
                                 <BaseButtonVue
                                     v-if="!isEditing"
                                     class="bgcolor-white marleft-6"
-                                    title="Thêm"
+                                    :title="language.title.add"
                                     id="add"
                                     @click="togglePopup"
                                 />
@@ -699,10 +760,14 @@
                             <div class="feature-edit-grid" v-if="!isEditing">
                                 <div class="add-popup" @click="togglePopup">
                                     <i class="fa-solid fa-plus"></i>
-                                    <span>Thêm</span>
+                                    <span>{{
+                                        language.missionDetailText.add
+                                    }}</span>
                                 </div>
                                 <span
-                                    >Tổng số bản ghi:
+                                    >{{
+                                        language.missionDetailText.totalRecord
+                                    }}
                                     <b>{{
                                         missionAllownEmployee.length
                                     }}</b></span
@@ -710,13 +775,10 @@
                             </div>
                             <div class="feature-edit-grid" v-else>
                                 <DxTextBox
-                                    placeholder="Tìm kiếm"
+                                    :placeholder="language.placeholder.seacrh"
                                     :width="'320px'"
                                     :height="'36px'"
-                                    :element-attr="inputText"
-                                    @FocusOut="onSearch"
-                                    @KeyDown="onEnterSearch"
-                                    @value-changed="valueChanged"
+                                    @EnterKey="valueChanged"
                                     :value="keyWord"
                                 >
                                     <DxButton
@@ -734,7 +796,7 @@
                                 :isEditing="!isEditing"
                                 :isHover="true"
                                 :border="true"
-                                :collumn="tableMissionDetail"
+                                :collumn="language.tableMissionDetail"
                                 @removeSelection="toggleDeletePopup($event)"
                                 @selectedRows="selectEntity($event)"
                                 :clearSelection="isClear"
@@ -743,26 +805,35 @@
                     </div>
                 </div>
                 <div class="form-business-travel martop-16">
-                    <h2 class="content-title-text">Ghi chú</h2>
+                    <h2 class="content-title-text">
+                        {{ language.missionDetailText.note }}
+                    </h2>
                     <div class="form-business-travel-note">
                         <div class="avatar martop-16">
-                            <span class="avatar-name">ĐL</span>
+                            <span class="avatar-name">{{
+                                language.missionDetailText.name
+                            }}</span>
                         </div>
                         <div class="dx-field-value marleft-16 martop-16 flex-1">
                             <DxTextBox placeholder="Nhập ghi chú"> </DxTextBox>
                         </div>
                     </div>
                     <div class="form-business-travel-description">
-                        <p>Nhấn ESC để <span>Hủy</span></p>
+                        <p>
+                            {{ language.missionDetailText.ESC
+                            }}<span>{{ language.title.cancel }}</span>
+                        </p>
                     </div>
                     <div class="form-business-travel-option">
-                        <span class="marright-40 option-item">Tất cả</span>
-                        <span class="marright-40 option-item active"
-                            >Ghi chú</span
-                        >
-                        <span class="marright-40 option-item"
-                            >Nhật kí hoạt động</span
-                        >
+                        <span class="marright-40 option-item">{{
+                            language.missionDetailText.all
+                        }}</span>
+                        <span class="marright-40 option-item active">{{
+                            language.missionDetailText.note
+                        }}</span>
+                        <span class="marright-40 option-item">{{
+                            language.missionDetailText.activityDiary
+                        }}</span>
                     </div>
                     <hr class="hr-class" />
                     <div class="martop-32"></div>
@@ -772,7 +843,7 @@
         <BasePopupVue
             v-if="popupVisible"
             @closeModal="togglePopup"
-            title="Chọn Nhân viên"
+            :title="language.title.addEmployee"
             id="add-employee"
             :missionDetail="missionAllowance.employeeIDs"
             @employeeList="onMissionEmployeeData($event)"
@@ -780,10 +851,11 @@
         <BasePopupVue
             v-if="showEditPopup"
             @closeModal="closeChangePopup"
-            title="Thông báo"
+            @onSave="Save()"
+            :title="language.title.notification"
             id="warning"
         >
-            <p>Thông tin đã bị thay đổi bạn có muốn lưu lại không?</p>
+            <p>{{ language.missionDetailText.inforChange }}</p>
         </BasePopupVue>
         <BasePopupVue
             v-if="popupMultipleDelete"
@@ -793,15 +865,27 @@
             @deleteMultiple="removeEmployee"
         >
             <p>
-                {{ popupMessage.deleteEmployeeMsg1 }}
+                {{ language.popupMessage.deleteEmployeeMsg1 }}
                 <b>{{ deleteEmployeeID.employeeName }}</b>
-                {{ popupMessage.deleteEmployeeMsg2 }}
+                {{ language.popupMessage.deleteEmployeeMsg2 }}
             </p>
         </BasePopupVue>
+
+        <div class="overlay-2" v-if="loadIndicatorVisible">
+            <!-- <DxLoadIndicator
+                :visible="loadIndicatorVisible"
+                :height="60"
+                :width="60"
+                :indicator-src="indicatorUrl"
+            /> -->
+            <div class="loader"></div>
+        </div>
     </div>
 </template>
 <script>
 import _ from "lodash";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import DxTextArea from "devextreme-vue/text-area";
 import deMessages from "devextreme/localization/messages/de.json";
 import { locale, loadMessages } from "devextreme/localization";
@@ -817,11 +901,14 @@ import DxTagBox from "devextreme-vue/tag-box";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import { DxAutocomplete } from "devextreme-vue/autocomplete";
 import { DxTooltip } from "devextreme-vue/tooltip";
+import { DxLoadIndicator } from "devextreme-vue/load-indicator";
 import {
     statusDropdown,
     ErrorMessage,
     tableMissionDetail,
     popupMessage,
+    missionDetailText,
+    title,
 } from "../../common/resources";
 import BaseStatusVue from "../base/BaseStatus.vue";
 import {
@@ -842,6 +929,7 @@ import axios from "axios";
 export default {
     name: "EmployeeDetail",
     components: {
+        DxLoadIndicator,
         DxAutocomplete,
         DxTooltip,
         BaseStatusVue,
@@ -872,37 +960,81 @@ export default {
         loadMessages(deMessages);
         locale(navigator.language);
     },
+    setup() {
+        // Khai báo các state từ vuex
+        const store = useStore();
+        const toast = computed(() => store.state.toast);
+        const statusMode = computed(() => store.state.statusMode);
+        const language = computed(() => store.state.resource);
+
+        // Khai báo các hàm gọi đến mutations
+        function setToast(payload) {
+            store.commit("setToast", payload);
+        }
+        function setStatusMode(payload) {
+            store.commit("setStatusMode", payload);
+        }
+
+        return { setToast, toast, statusMode, setStatusMode, language };
+    },
     mounted() {
+        // Kiểm tra router nếu param là 0 thì form thêm ngược lại là chi tiết hoặc sửa
         if (this.$route.params.id != 0) {
+            // Gọi API lấy thông tin đơn
             this.loadMission(this.$route.params.id);
             this.loadMissionDetail(this.$route.params.id);
+            // Kiểm tra router query xem là form chi tiết hay là sửa
             if (this.$route.query.isEdit == "false") {
-                this.webTitle = "Chi tiết đề nghị đi công tác";
+                this.webTitle = this.language.missionDetailText.title;
                 this.isEditing = true;
             } else {
-                this.webTitle = "Sửa đề nghị đi công tác";
+                this.webTitle = this.language.missionDetailText.titleEdit;
                 this.isEditing = false;
             }
         } else {
-            this.webTitle = "Thêm mới đề nghị đi công tác";
+            // Title form
+            this.webTitle = this.language.missionDetailText.titleAdd;
             this.isEditing = false;
+            // Clone ra chi tiết đơn để so sánh khi có sự thay đổi
             this.cloneMissionAllowance = { ...this.missionAllowance };
             this.missionAllowance.status = 0;
+            this.cloneMissionAllowance.status = 0;
+            // API lấy danh sách nhân viên
+            this.loadEmployee();
+            this.loadApproval();
+            this.loadSupport();
+            this.loadRelationship();
         }
-        this.loadEmployee();
-        this.loadApproval();
-        this.loadRelationship();
-        this.loadSupport();
     },
     methods: {
-        test(e) {
-            console.log(e);
-            console.log(this.missionAllowance.employeeName);
+        /**
+         * Thực hiện xử lý Khi tìm kiếm ở table danh sách nhân viên đi công tác cùng
+         **  Author: Nguyễn Quang Minh(02/01/2023)
+         */
+        valueChanged(e) {
+            const search = e.component._changedValue;
+            this.missionAllownEmployee = this.cloneMissionAllownEmployee.filter(
+                (item) => {
+                    return (
+                        item.employeeName.includes(search) ||
+                        item.employeeCode.includes(search)
+                    );
+                }
+            );
         },
+        /**
+         * Thực hiện xử lý ẩn hiện popup khi xóa nhân viên khỏi bảng
+         **  Author: Nguyễn Quang Minh(31/12/2022)
+         */
         toggleDeletePopup(e) {
             this.popupMultipleDelete = !this.popupMultipleDelete;
             this.deleteEmployeeID = e;
         },
+
+        /**
+         * Thực hiện xử lý validate combobox người đề nghị khi blur
+         **  Author: Nguyễn Quang Minh(31/12/2022)
+         */
         blurEmployeeValidate() {
             if (this.missionAllowance.employeeName == "") {
                 this.validate.employeeError = true;
@@ -910,6 +1042,11 @@ export default {
                 this.validate.employeeError = false;
             }
         },
+
+        /**
+         * Thực hiện xử lý validate ngày đề nghị khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurRequestDateValidate(e) {
             if (!this.missionAllowance.requestDate) {
                 this.validate.requestDateError = true;
@@ -917,6 +1054,10 @@ export default {
                 this.validate.requestDateError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate ngày đi khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurFromDateValidate() {
             if (!this.missionAllowance.fromDate) {
                 this.validate.fromDateError = true;
@@ -924,6 +1065,10 @@ export default {
                 this.validate.fromDateError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate ngày về khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurToDateValidate() {
             if (!this.missionAllowance.toDate) {
                 this.validate.toDateError = true;
@@ -932,6 +1077,10 @@ export default {
                 this.validateDate();
             }
         },
+        /**
+         * Thực hiện xử lý validate địa điểm nghị khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurLocationValidate() {
             if (!this.missionAllowance.location) {
                 this.validate.locationError = true;
@@ -939,6 +1088,10 @@ export default {
                 this.validate.locationError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate lý do công tác khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurPurposeValidate() {
             if (!this.missionAllowance.purpose) {
                 this.validate.purposeError = true;
@@ -946,6 +1099,10 @@ export default {
                 this.validate.purposeError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate người duyệt khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurApprovalValidate(e) {
             if (!this.missionAllowance.approvalName) {
                 console.log(e);
@@ -954,6 +1111,10 @@ export default {
                 this.validate.approvalError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate trạng thái khi blur
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         blurStatusValidate() {
             if (this.missionAllowance.status == "") {
                 this.validate.statusError = true;
@@ -961,206 +1122,370 @@ export default {
                 this.validate.statusError = false;
             }
         },
+        /**
+         * Thực hiện xử lý focus vào combobox người đề nghị khi chuyển trang
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         initFocus(e) {
             e.component.focus();
         },
+        /**
+         * Thực hiện xử lý tabindex
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
         onTabindex() {
             this.$refs.input.focus();
         },
+        /**
+         * Thực hiện thay đổi trạng thái khi ấn bỏ chọn các row trong table
+         **  Author: Nguyễn Quang Minh(26/12/2022)
+         */
         clearSelection() {
             this.isClear = !this.isClear;
         },
+        /**
+         * Thực hiện lấy API chi tiết đơn
+         **  Author: Nguyễn Quang Minh(21/12/2022)
+         */
         loadMission(id) {
-            axios
-                .get(`https://localhost:7093/api/MissionAllownce/${id}`)
-                .then((response) => {
-                    this.missionAllowance = response.data;
-                    this.cloneMissionAllowance = {
-                        ...response.data,
-                        employeeIDs: [],
-                    };
-
-                    if (!this.missionAllowance.supportIDs) {
-                        this.supportIDArray = [];
-                        this.supportNameArray = [];
-                    } else {
-                        this.supportIDArray =
-                            response.data.supportIDs.split(", ");
-                        this.supportNameArray =
-                            response.data.supportNames.split(", ");
-                    }
-                    if (!this.missionAllowance.relationShipIDs) {
-                        this.relationShipIDArray = [];
-                        this.relationShipNameArray = [];
-                    } else {
-                        this.relationShipIDArray =
-                            response.data.relationShipIDs.split(", ");
-                        this.relationShipNameArray =
-                            response.data.relationShipNames.split(", ");
-                    }
-                })
-                .catch((error) => {
-                    console.log("Lấy chi tiết đơn bị lỗi");
-                });
+            try {
+                this.loadIndicatorVisible = true;
+                axios
+                    .get(`https://localhost:7093/api/MissionAllownce/${id}`)
+                    .then((response) => {
+                        // Lấy thông tin đơn
+                        this.missionAllowance = {
+                            ...response.data,
+                            employeeIDs: [],
+                        };
+                        // clone lại để so sánh khi thông tin bị thay đổi
+                        this.cloneMissionAllowance = {
+                            ...this.missionAllowance,
+                        };
+                        // Kiểm tra id người hỗ trợ nếu không có thì gắn bằng mảng rỗng
+                        if (!this.missionAllowance.supportIDs) {
+                            this.supportIDArray = [];
+                            this.supportNameArray = [];
+                        } else {
+                            // Chuyển từ dạng chuỗi về mảng
+                            this.supportIDArray =
+                                response.data.supportIDs.split(", ");
+                            this.supportNameArray =
+                                response.data.supportNames.split(", ");
+                        }
+                        // Kiểm tra id người hỗ trợ nếu không có thì gắn bằng mảng rỗng
+                        if (!this.missionAllowance.relationShipIDs) {
+                            this.relationShipIDArray = [];
+                            this.relationShipNameArray = [];
+                        } else {
+                            // Chuyển từ dạng chuỗi về mảng
+                            this.relationShipIDArray =
+                                response.data.relationShipIDs.split(", ");
+                            this.relationShipNameArray =
+                                response.data.relationShipNames.split(", ");
+                        }
+                        // Gọi API lấy ra danh sách nhân viên
+                        this.loadEmployee(this.missionAllowance.employeeID);
+                        // Tham số == 1 để lấy ra danh sách nhân viên đã đc chọn
+                        // Tham số == 0 để lấy ra dánh sách nhân viên khác vs những id đã đc chọn
+                        this.loadApproval(
+                            this.missionAllowance.approvalToID,
+                            1
+                        );
+                        this.loadApproval(
+                            this.missionAllowance.approvalToID,
+                            0
+                        );
+                        this.loadSupport(this.supportIDArray, 1);
+                        this.loadSupport(this.supportIDArray, 0);
+                        this.loadRelationship(this.relationShipIDArray, 1);
+                        this.loadRelationship(this.relationShipIDArray, 0);
+                        this.loadIndicatorVisible = false;
+                    })
+                    .catch((error) => {
+                        console.log("Lấy chi tiết đơn bị lỗi");
+                        this.loadIndicatorVisible = false;
+                    });
+            } catch (error) {
+                console.log("Lấy chi tiết đơn bị lỗi");
+            }
         },
+        /**
+         * Thực hiện lấy API nhân viên đi công tác cùng
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         loadMissionDetail(id) {
-            axios
-                .get(
-                    `https://localhost:7093/api/MissionAllownceDetail/v1/${id}`
-                )
-                .then((response) => {
-                    this.missionAllownEmployee = response.data;
-                    (this.cloneMissionAllownEmployee = {
-                        ...this.missionAllownEmployee,
-                    }),
-                        (this.missionAllowance.employeeIDs =
+            try {
+                this.loadIndicatorVisible = true;
+                axios
+                    .get(
+                        `https://localhost:7093/api/MissionAllownceDetail/v1/${id}`
+                    )
+                    .then((response) => {
+                        this.missionAllownEmployee = response.data;
+                        (this.cloneMissionAllownEmployee = [
+                            ...this.missionAllownEmployee,
+                        ]),
+                            // Lấy ra danh sách id từ mảng nhân viên đi công tác cùng
+                            (this.missionAllowance.employeeIDs =
+                                this.missionAllownEmployee.map((item) => {
+                                    return item.employeeID;
+                                }));
+                        this.cloneMissionAllowance.employeeIDs =
                             this.missionAllownEmployee.map((item) => {
                                 return item.employeeID;
-                            }));
-                })
-                .catch((error) => {
-                    console.log("Lấy chi tiết đơn bị lỗi");
-                });
+                            });
+                        this.loadIndicatorVisible = false;
+                    })
+                    .catch((error) => {
+                        console.log("Lấy chi tiết đơn bị lỗi");
+                        this.loadIndicatorVisible = false;
+                    });
+            } catch (error) {
+                console.log("Lấy chi tiết đơn bị lỗi");
+            }
         },
-        loadEmployee() {
-            axios
-                .post("https://localhost:7093/api/Employee/filter", {
-                    keyword: this.employeeKeyword,
-                    organizationID: "",
-                    pageSize: this.employeePageSize,
-                    pageNumber: this.employeePageNumber,
-                    employeeIDs: [],
-                })
-                .then((response) => {
-                    this.listEmployee = [
-                        ...this.listEmployee,
-                        ...response.data.data,
-                    ];
-                    this.listEmployeeTotal = response.data.totalCount;
-                })
-                .catch((error) => {
-                    console.log("lấy danh sách nhân viên bị lỗi");
-                });
+        /**
+         * Thực hiện lấy API lấy danh sách nhân viên cho combobox người đề nghị
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
+        loadEmployee(id) {
+            try {
+                let employeeID = [];
+                if (id) {
+                    employeeID.push(id);
+                }
+                axios
+                    .post("https://localhost:7093/api/Employee/filter", {
+                        keyword: this.employeeKeyword,
+                        organizationID: "",
+                        pageSize: this.employeePageSize,
+                        pageNumber: this.employeePageNumber,
+                        employeeIDs: [],
+                        getEmployeeIDs: employeeID,
+                    })
+                    .then((response) => {
+                        this.listEmployee = [
+                            ...this.listEmployee,
+                            ...response.data.data,
+                        ];
+                        this.listEmployeeTotal = response.data.totalCount;
+                    })
+                    .catch((error) => {
+                        console.log("lấy danh sách nhân viên bị lỗi");
+                    });
+            } catch (error) {
+                console.log("lấy danh sách nhân viên bị lỗi");
+            }
         },
-        loadApproval() {
-            axios
-                .post("https://localhost:7093/api/Employee/filter", {
-                    keyword: this.approvalNameKeyword,
-                    organizationID: "",
-                    pageSize: this.approvalNamePageSize,
-                    pageNumber: this.approvalNamePageNumber,
-                    employeeIDs: [],
-                })
-                .then((response) => {
-                    this.listApproval = [
-                        ...this.listApproval,
-                        ...response.data.data,
-                    ];
-                    this.listApprovalTotal = response.data.totalCount;
-                })
-                .catch((error) => {
-                    console.log("lấy danh sách nhân viên bị lỗi");
-                });
+        /**
+         * Thực hiện lấy API lấy danh sách nhân viên cho combobox người duyệt
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
+        loadApproval(id, number) {
+            try {
+                let approvalID = [];
+                let approvalIDNotIn = [];
+                // Nếu number = 1 thì thêm id vào mảng để filter
+                if (id && number == 1) {
+                    approvalID.push(id);
+                } else {
+                    approvalID = [];
+                }
+                // Nếu number = 0 thì thêm id vào mảng để filter
+                if (id && number == 0) {
+                    approvalIDNotIn.push(id);
+                } else {
+                    approvalIDNotIn = [];
+                }
+                axios
+                    .post("https://localhost:7093/api/Employee/filter", {
+                        keyword: this.approvalNameKeyword,
+                        organizationID: "",
+                        pageSize: this.approvalNamePageSize,
+                        pageNumber: this.approvalNamePageNumber,
+                        employeeIDs: approvalIDNotIn,
+                        getEmployeeIDs: approvalID,
+                    })
+                    .then((response) => {
+                        this.listApproval = [
+                            ...this.listApproval,
+                            ...response.data.data,
+                        ];
+                        this.listApprovalTotal = response.data.totalCount;
+                    })
+                    .catch((error) => {
+                        console.log("lấy danh sách nhân viên bị lỗi");
+                    });
+            } catch (error) {
+                console.log("lấy danh sách nhân viên bị lỗi");
+            }
         },
-        loadRelationship() {
-            axios
-                .post("https://localhost:7093/api/Employee/filter", {
-                    keyword: this.relationShipNameKeyword,
-                    organizationID: "",
-                    pageSize: this.relationShipNamePageSize,
-                    pageNumber: this.relationShipNamePageNumber,
-                    employeeIDs: [],
-                })
-                .then((response) => {
-                    this.listRelationship = [
-                        ...this.listRelationship,
-                        ...response.data.data,
-                    ];
-                    this.listRelationshipTotal = response.data.totalCount;
-                })
-                .catch((error) => {
-                    console.log("lấy danh sách nhân viên bị lỗi");
-                });
+        /**
+         * Thực hiện lấy API lấy danh sách nhân viên cho combobox người liên quan
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
+        loadRelationship(val, number) {
+            try {
+                let listID;
+                let listIdNotIn;
+                // Nếu number = 1 thì thêm id vào mảng để filter
+                if (val && number == 1) {
+                    listID = val;
+                } else {
+                    listID = [];
+                }
+                // Nếu number = 0 thì thêm id vào mảng để filter
+                if (val && number == 0) {
+                    listIdNotIn = val;
+                } else {
+                    listIdNotIn = [];
+                }
+                axios
+                    .post("https://localhost:7093/api/Employee/filter", {
+                        keyword: this.relationShipNameKeyword,
+                        organizationID: "",
+                        pageSize: this.relationShipNamePageSize,
+                        pageNumber: this.relationShipNamePageNumber,
+                        employeeIDs: listIdNotIn,
+                        getEmployeeIDs: listID,
+                    })
+                    .then((response) => {
+                        this.listRelationship = [
+                            ...this.listRelationship,
+                            ...response.data.data,
+                        ];
+                        this.listRelationshipTotal = response.data.totalCount;
+                    })
+                    .catch((error) => {
+                        console.log("lấy danh sách nhân viên bị lỗi");
+                    });
+            } catch (error) {
+                console.log("lấy danh sách nhân viên bị lỗi");
+            }
         },
-        loadSupport() {
-            axios
-                .post("https://localhost:7093/api/Employee/filter", {
-                    keyword: this.supportNameKeyword,
-                    organizationID: "",
-                    pageSize: this.supportNamePageSize,
-                    pageNumber: this.supportNamePageNumber,
-                    employeeIDs: [],
-                })
-                .then((response) => {
-                    this.listSupport = [
-                        ...this.listSupport,
-                        ...response.data.data,
-                    ];
-                    this.listSupportTotal = response.data.totalCount;
-                })
-                .catch((error) => {
-                    console.log("lấy danh sách nhân viên bị lỗi");
-                });
+        /**
+         * Thực hiện lấy API lấy danh sách nhân viên cho combobox người hỗ trợ
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
+        loadSupport(val, number) {
+            try {
+                let listID;
+                let listIdNotIn;
+                // Nếu number = 1 thì thêm id vào mảng để filter
+                if (val && number == 1) {
+                    listID = val;
+                } else {
+                    listID = [];
+                }
+                // Nếu number = 0 thì thêm id vào mảng để filter
+                if (val && number == 0) {
+                    listIdNotIn = val;
+                } else {
+                    listIdNotIn = [];
+                }
+                axios
+                    .post("https://localhost:7093/api/Employee/filter", {
+                        keyword: this.supportNameKeyword,
+                        organizationID: "",
+                        pageSize: this.supportNamePageSize,
+                        pageNumber: this.supportNamePageNumber,
+                        employeeIDs: listIdNotIn,
+                        getEmployeeIDs: listID,
+                    })
+                    .then((response) => {
+                        this.listSupport = [
+                            ...this.listSupport,
+                            ...response.data.data,
+                        ];
+                        this.listSupportTotal = response.data.totalCount;
+                    })
+                    .catch((error) => {
+                        console.log("lấy danh sách nhân viên bị lỗi");
+                    });
+            } catch (error) {
+                console.log("lấy danh sách nhân viên bị lỗi");
+            }
         },
+        /**
+         * Thực hiện xử lý đóng mở popup danh sách nhân viên
+         **  Author: Nguyễn Quang Minh(22/12/2022)
+         */
         togglePopup() {
             this.popupVisible = !this.popupVisible;
         },
+        /**
+         * Thực hiện xử lý đóng mở popup thông tin có sự thay đổi
+         **  Author: Nguyễn Quang Minh(22/12/2022)
+         */
         closeChangePopup() {
             this.showEditPopup = !this.showEditPopup;
         },
+        /**
+         * Thực hiện xử lý khi chuyển trang
+         **  Author: Nguyễn Quang Minh(22/12/2022)
+         */
         backPage() {
+            // Nếu form có sự thay đổi thì thông báo không thì chuyển trang luôn
             if (
                 JSON.stringify(this.cloneMissionAllowance) ==
-                    JSON.stringify(this.missionAllowance) &&
-                JSON.stringify(this.cloneMissionAllownEmployee) ===
-                    JSON.stringify(this.missionAllownEmployee)
+                JSON.stringify(this.missionAllowance)
             ) {
                 this.$router.push({ path: "/" });
             } else {
                 this.showEditPopup = true;
             }
         },
-
+        /**
+         * Thực hiện xử lý validate ngày đi và ngày về
+         **  Author: Nguyễn Quang Minh(24/12/2022)
+         */
         validateDate() {
             const fromDate = new Date(this.missionAllowance.fromDate);
             const toDate = new Date(this.missionAllowance.toDate);
+            // So sánh ngày đi ngày về
             if (fromDate > toDate) {
+                // Thông báo lỗi nếu nhưng input trống hoặc ngày về nhỏ hơn ngày đi
                 if (!this.missionAllowance.fromDate) {
                     this.validate.fromDateError = true;
-                    this.fromDateMessage = ErrorMessage.requiredFromDate;
+                    this.fromDateMessage =
+                        this.language.ErrorMessage.requiredFromDate;
                 }
                 if (!this.missionAllowance.toDate) {
                     this.validate.toDateError = true;
-                    this.toDateMessage = ErrorMessage.requiredToDate;
+                    this.toDateMessage =
+                        this.language.ErrorMessage.requiredToDate;
                 } else {
                     this.validate.toDateError = true;
-                    this.toDateMessage = ErrorMessage.invalidDate;
+                    this.toDateMessage = this.language.ErrorMessage.invalidDate;
                 }
             } else {
-                let fromDateHour;
-                let toDateHour;
-                if (toDate.getHours() < 12) {
-                    toDateHour = 0.5;
-                } else {
-                    toDateHour = 1;
-                }
-                if (fromDate.getHours() < 12) {
-                    fromDateHour = 0.5;
-                } else {
-                    fromDateHour = 1;
-                }
-                this.missionAllowance.leaveDay =
-                    toDate.getDate() +
-                    toDateHour -
-                    (fromDate.getDate() + fromDateHour);
+                this.validate.fromDateError = false;
+                this.validate.toDateError = false;
+                // Xử lý lấy ra số ngày đi công tác và gán vào số ngày công tác
+                const minute = 1000 * 60;
+                const hour = minute * 60;
+                const day = hour * 24;
+                let fromDateHour = fromDate.getTime();
+                let toDateHour = toDate.getTime();
+                let leaveDay = (toDateHour - fromDateHour) / day;
+                // leaveDay = leaveDay.toFixed(2);
+                this.missionAllowance.leaveDay = leaveDay;
                 this.cloneMissionAllowance.leaveDay =
                     this.missionAllowance.leaveDay;
-                this.validate.fromDateError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate bắt buộc nhập
+         **  Author: Nguyễn Quang Minh(24/12/2022)
+         */
         validateRequired(e) {
             return e.value != "";
         },
+        /**
+         * Thực hiện xử lý validate bắt buộc nhập input địa điểm
+         **  Author: Nguyễn Quang Minh(24/12/2022)
+         */
         validateLocation(e) {
             if (e.value == "") {
                 this.validate.locationError = true;
@@ -1168,6 +1493,10 @@ export default {
                 this.validate.locationError = false;
             }
         },
+        /**
+         * Thực hiện xử lý validate bắt buộc nhập input lý do công tác
+         **  Author: Nguyễn Quang Minh(24/12/2022)
+         */
         validatePerpose(e) {
             if (e.value == "") {
                 this.validate.purposeError = true;
@@ -1175,7 +1504,12 @@ export default {
                 this.validate.purposeError = false;
             }
         },
+        /**
+         * Thực hiện xử lý lấy value khi chọn nhiều combobox người liên quan
+         **  Author: Nguyễn Quang Minh(21/12/2022)
+         */
         getRelationshipSelection(e) {
+            // Nếu chọn thêm thì add id và tên nhân viên đã chọn vào mảng
             if (e.addedItems.length > 0) {
                 this.relationShipNameArray.push(e.addedItems[0].employeeName);
                 this.relationShipIDArray.push(e.addedItems[0].employeeID);
@@ -1185,7 +1519,9 @@ export default {
                 this.relationShipNameArray = [
                     ...new Set(this.relationShipNameArray),
                 ];
-            } else if (e.removedItems.length > 0) {
+            }
+            // Xóa id và tên nhân viên đã chọn khỏi mảng
+            else if (e.removedItems.length > 0) {
                 this.relationShipNameArray = this.relationShipNameArray.filter(
                     (item) => {
                         return item !== e.removedItems[0].employeeName;
@@ -1197,18 +1533,26 @@ export default {
                     }
                 );
             }
+            // Đưa về dạng chuỗi cách nhau bởi dấu ,
             this.missionAllowance.relationShipIDs =
                 this.relationShipIDArray.join(", ");
             this.missionAllowance.relationShipNames =
                 this.relationShipNameArray.join(", ");
         },
+        /**
+         * Thực hiện xử lý lấy value khi chọn nhiều combobox người hỗ trợ
+         **  Author: Nguyễn Quang Minh(21/12/2022)
+         */
         getSupportSelection(e) {
+            // Nếu chọn thêm thì add id và tên nhân viên đã chọn vào mảng
             if (e.addedItems.length > 0) {
                 this.supportNameArray.push(e.addedItems[0].employeeName);
                 this.supportIDArray.push(e.addedItems[0].employeeID);
                 this.supportIDArray = [...new Set(this.supportIDArray)];
                 this.supportNameArray = [...new Set(this.supportNameArray)];
-            } else if (e.removedItems.length > 0) {
+            }
+            // Xóa id và tên nhân viên đã chọn khỏi mảng
+            else if (e.removedItems.length > 0) {
                 this.supportNameArray = this.supportNameArray.filter((item) => {
                     return item !== e.removedItems[0].employeeName;
                 });
@@ -1216,10 +1560,15 @@ export default {
                     return item !== e.removedItems[0].employeeID;
                 });
             }
+            // Đưa về dạng chuỗi cách nhau bởi dấu ,
             this.missionAllowance.supportIDs = this.supportIDArray.join(", ");
             this.missionAllowance.supportNames =
                 this.supportNameArray.join(", ");
         },
+        /**
+         * Thực hiện combobox người đề nghị khi scroll
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onEmployeeScroll() {
             const employee = document.querySelectorAll(".abc")[0];
             const cde =
@@ -1229,16 +1578,21 @@ export default {
 
                 const scrollHeight = e.target.scrollHeight;
                 const scrollTop = e.target.scrollTop;
-
+                // Điều kiện khi scroll đến cuối element
                 if (scrollTop + clientHeight >= scrollHeight) {
+                    // Điều kiện kiểm tra danh sách nhân viên có nhỏ hơn tổng số nhân viên không?
                     if (this.listEmployee.length < this.listEmployeeTotal) {
-                        this.employeePageSize = 10;
+                        this.employeePageSize = 300;
                         this.employeePageNumber++;
                         this.loadEmployee();
                     }
                 }
             });
         },
+        /**
+         * Thực hiện combobox người duyệt khi scroll
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onApprovalScroll() {
             const approval = document.querySelectorAll(".approval")[0];
             const approvalParent =
@@ -1250,15 +1604,24 @@ export default {
                 const scrollHeight = e.target.scrollHeight;
                 const scrollTop = e.target.scrollTop;
 
+                // Điều kiện khi scroll đến cuối element
                 if (scrollTop + clientHeight >= scrollHeight) {
+                    // Điều kiện kiểm tra danh sách nhân viên có nhỏ hơn tổng số nhân viên không?
                     if (this.listApproval.length < this.listApprovalTotal) {
-                        this.approvalNamePageSize = 10;
+                        this.approvalNamePageSize = 300;
                         this.approvalNamePageNumber++;
-                        this.loadApproval();
+                        this.loadApproval(
+                            this.missionAllowance.approvalToID,
+                            0
+                        );
                     }
                 }
             });
         },
+        /**
+         * Thực hiện combobox người liên quan khi scroll
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onRelationshipScroll() {
             const employee = document.querySelectorAll(".relationship")[0];
             const cde =
@@ -1269,18 +1632,24 @@ export default {
                 const scrollHeight = e.target.scrollHeight;
                 const scrollTop = e.target.scrollTop;
 
+                // Điều kiện khi scroll đến cuối element
                 if (scrollTop + clientHeight >= scrollHeight) {
+                    // Điều kiện kiểm tra danh sách nhân viên có nhỏ hơn tổng số nhân viên không?
                     if (
                         this.listRelationship.length <
                         this.listRelationshipTotal
                     ) {
-                        this.relationShipNamePageSize = 10;
+                        this.relationShipNamePageSize = 300;
                         this.relationShipNamePageNumber++;
-                        this.loadRelationship();
+                        this.loadRelationship(this.relationShipIDArray, 0);
                     }
                 }
             });
         },
+        /**
+         * Thực hiện combobox người hỗ trọ khi scroll
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onSupportScroll() {
             const employee = document.querySelectorAll(".support")[0];
             const cde =
@@ -1291,15 +1660,21 @@ export default {
                 const scrollHeight = e.target.scrollHeight;
                 const scrollTop = e.target.scrollTop;
 
+                // Điều kiện khi scroll đến cuối element
                 if (scrollTop + clientHeight >= scrollHeight) {
+                    // Điều kiện kiểm tra danh sách nhân viên có nhỏ hơn tổng số nhân viên không?
                     if (this.listSupport.length < this.listSupportTotal) {
-                        this.supportNamePageSize = 10;
+                        this.supportNamePageSize = 300;
                         this.supportNamePageNumber++;
                         this.loadSupport();
                     }
                 }
             });
         },
+        /**
+         * Thực hiện lấy những nhân viên đã chọn lưu vào bảng đi công tác cùng
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onMissionEmployeeData(e) {
             this.missionAllownEmployee = [...this.missionAllownEmployee, ...e];
             this.missionAllowance.employeeIDs = this.missionAllownEmployee.map(
@@ -1309,7 +1684,12 @@ export default {
             );
             this.popupVisible = !this.popupVisible;
         },
+        /**
+         * Thực hiện xóa nhân viên đã chọn khỏi bảng đi công tác cùng
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         removeEmployee() {
+            // Dùng filter để lọc bỏ nhân viên
             this.missionAllownEmployee = this.missionAllownEmployee.filter(
                 (item) => item.employeeID !== this.deleteEmployeeID.employeeID
             );
@@ -1323,7 +1703,12 @@ export default {
             }
             this.popupMultipleDelete = false;
         },
+        /**
+         * Thực hiện xóa nhân viên chọn nhiều khỏi bảng đi công tác cùng
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         removeSelectionItem() {
+            // Lặp qua từng phần tử và loại bỏ các nhân viên có trùng id muốn xóa
             this.selectedRowsData.forEach((employee) => {
                 this.missionAllownEmployee = this.missionAllownEmployee.filter(
                     (item) => item.employeeID !== employee.employeeID
@@ -1336,6 +1721,10 @@ export default {
             );
             this.selectedRowsData = [];
         },
+        /**
+         * Thực hiện lưu tổng số hàng đã tích
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         selectEntity(e) {
             if (e.length > 0) {
                 this.isSelected = true;
@@ -1344,14 +1733,43 @@ export default {
             }
             this.selectedRowsData = e.selectedRowsData;
         },
+        /**
+         * Thực hiện format dữ liệu dạng ngày
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
+        formatDate(data) {
+            const date = new Date(data);
+            return `${
+                date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+            }/${
+                date.getMonth() + 1 < 10
+                    ? `0${date.getMonth() + 1}`
+                    : date.getMonth() + 1
+            }/${date.getFullYear()} ${
+                date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            }:${
+                date.getMinutes() < 10
+                    ? `0${date.getMinutes()}`
+                    : date.getMinutes()
+            }`;
+        },
+        /**
+         * Thực hiện đổi Ui khi ấn nút sửa
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         Edit() {
+            this.missionAllownEmployee = this.cloneMissionAllownEmployee;
             this.$router.push({
                 name: "mission-allowance",
                 params: { id: this.$route.params.id },
             });
-            this.webTitle = "Sửa đề nghị đi công tác";
+            this.webTitle = missionDetailText.titleEdit;
             this.isEditing = false;
         },
+        /**
+         * Thực hiện lấy chữ cái đầu của tên đệm và tên cho vào avartar
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         convertString(str) {
             let temp = "";
             for (let x of str) {
@@ -1361,6 +1779,14 @@ export default {
             }
             return temp.replace(/\s/g, "").slice(-2);
         },
+        // onSearchBox(e) {
+        //     var search = e.component.option("text");
+        //     this.employeeKeyword = search;
+        // },
+        /**
+         * Thực hiện lấy Lưu lại thông tin người đề nghị đã chọn
+         **  Author: Nguyễn Quang Minh(19/12/2022)
+         */
         onValueEmployee(e) {
             if (e.selectedItem == null) {
                 this.validate.employeeError = true;
@@ -1381,10 +1807,18 @@ export default {
                     e.selectedItem.jobPositionName;
             }
         },
+        /**
+         * Thực hiện lấy Lưu lại thông tin những người hỗ trợ đã chọn
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onValueSupport(e) {
             this.missionAllowance.supportIDs = e.selectedItem.employeeID;
             this.missionAllowance.supportNames = e.selectedItem.employeeName;
         },
+        /**
+         * Thực hiện lấy Lưu lại thông tin người duyệt đã chọn
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onValueApproval(e) {
             if (e.selectedItem == null) {
                 this.validate.approvalError = true;
@@ -1395,6 +1829,10 @@ export default {
                 this.missionAllowance.approvalToID = e.selectedItem.employeeID;
             }
         },
+        /**
+         * Thực hiện lấy Lưu lại ngày đề nghị
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         getValueRequetDate(e) {
             if (e.value == null) {
                 this.validate.requestDateError = true;
@@ -1403,6 +1841,10 @@ export default {
                 this.validate.requestDateError = false;
             }
         },
+        /**
+         * Thực hiện lấy Lưu lại ngày đi
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         getValueFromDate(e) {
             if (e.value == null) {
                 this.validate.fromDateError = true;
@@ -1412,6 +1854,10 @@ export default {
                 this.validateDate();
             }
         },
+        /**
+         * Thực hiện lấy Lưu lại trạng thái
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         onValueStatus(e) {
             if (e.selectedItem == null) {
                 this.validate.statusError = true;
@@ -1420,71 +1866,67 @@ export default {
                 this.missionAllowance.status = e.selectedItem.id;
             }
         },
+        /**
+         * Thực hiện lấy Lưu lại ngày về
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         getValueToDate(e) {
             if (e.value == null) {
                 this.validate.toDateError = true;
-                this.toDateMessage = ErrorMessage.requiredToDate;
+                this.toDateMessage = this.language.ErrorMessage.requiredToDate;
             } else {
                 this.validate.toDateError = false;
                 this.missionAllowance.toDate = e.value;
                 this.validateDate();
             }
         },
+        /**
+         * Thực hiện validate form khi ấn lưu
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         validateForm() {
-            let isvalid = true;
+            var isError = true;
             if (this.missionAllowance.employeeID == "") {
                 this.validate.employeeError = true;
-                isvalid = false;
-            } else {
-                this.validate.employeeError = false;
-                isvalid = true;
+                isError = false;
             }
-            if (this.missionAllowance.requestDate == "") {
+            if (!this.missionAllowance.requestDate) {
                 this.validate.requestDateError = true;
-                isvalid = false;
-            } else {
-                this.validate.requestDateError = false;
-                isvalid = true;
+                isError = false;
             }
-            if (this.missionAllowance.toDate == "") {
+            if (
+                !this.missionAllowance.toDate ||
+                new Date(this.missionAllowance.toDate) <
+                    new Date(this.missionAllowance.fromDate)
+            ) {
                 this.validate.toDateError = true;
-                this.toDateMessage = ErrorMessage.requiredToDate;
-                isvalid = false;
-            } else {
-                this.validate.toDateError = false;
-                isvalid = true;
+                this.toDateMessage = this.language.ErrorMessage.requiredToDate;
+                isError = false;
             }
-            if (this.missionAllowance.fromDate == "") {
+            if (!this.missionAllowance.fromDate) {
                 this.validate.fromDateError = true;
-                isvalid = false;
-            } else {
-                this.validate.fromDateError = false;
-                isvalid = true;
+                isError = false;
             }
             if (this.missionAllowance.location == "") {
                 this.validate.locationError = true;
-                isvalid = false;
-            } else {
-                this.validate.locationError = false;
-                isvalid = true;
+                isError = false;
             }
             if (this.missionAllowance.purpose == "") {
                 this.validate.purposeError = true;
-                isvalid = false;
-            } else {
-                this.validate.purposeError = false;
-                isvalid = true;
+                isError = false;
             }
             if (this.missionAllowance.approvalToID == "") {
                 this.validate.approvalError = true;
-                isvalid = false;
-            } else {
-                this.validate.approvalError = false;
-                isvalid = true;
+                isError = false;
             }
-            return isvalid;
+            return isError;
         },
+        /**
+         * Thực hiện xử lý lấy dữ liệu nhân viên đi làm cùng trước khi lưu lưu vào 3 trường employeeaMission
+         **  Author: Nguyễn Quang Minh(23/12/2022)
+         */
         getEmployeeMission() {
+            // Kiểm tra trường hợp mảng lớn hơn 1
             if (this.missionAllownEmployee.length > 1) {
                 let empName = this.missionAllownEmployee.map((item) => {
                     return item.employeeName;
@@ -1498,7 +1940,9 @@ export default {
                 this.missionAllowance.employeeMissionNames = empName.join(", ");
                 this.missionAllowance.employeeMissionCodes = empCode.join(", ");
                 this.missionAllowance.employeeMissionIDs = empID.join(", ");
-            } else if (this.missionAllownEmployee.length == 1) {
+            }
+            // Kiểm tra trường hợp mảng == 1
+            else if (this.missionAllownEmployee.length == 1) {
                 this.missionAllowance.employeeMissionNames =
                     this.missionAllownEmployee[0].employeeName;
                 this.missionAllowance.employeeMissionCodes =
@@ -1507,42 +1951,71 @@ export default {
                     this.missionAllownEmployee[0].employeeID;
             }
         },
-        Save() {
+        /**
+         * Thực hiện xử lý khi ấn lưu
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
+        async Save() {
             const me = this;
+            this.loadIndicatorVisible = true;
             try {
+                // Thực hiện xử lý trước khi lưu
+                this.showEditPopup = false;
                 this.getEmployeeMission();
+                // id != 0 la form sửa
                 if (this.$route.params.id != 0) {
-                    // Format dữ liệu ngày tháng
-                    this.missionAllowance.requestDate = new Date(
-                        this.missionAllowance.requestDate
-                    );
-                    // Format dữ liệu ngày tháng
-                    this.missionAllowance.fromDate = new Date(
-                        this.missionAllowance.fromDate
-                    );
-                    this.missionAllowance.toDate = new Date(
-                        this.missionAllowance.toDate
-                    );
-                    // Đổi kiểu dữ liệu trường gender sang int
-                    this.missionAllowance.status = parseInt(
-                        this.missionAllowance.status
-                    );
+                    if (this.validateForm()) {
+                        // Format dữ liệu ngày tháng
+                        this.missionAllowance.requestDate = new Date(
+                            this.missionAllowance.requestDate
+                        );
+                        // Format dữ liệu ngày tháng
+                        this.missionAllowance.fromDate = new Date(
+                            this.missionAllowance.fromDate
+                        );
+                        this.missionAllowance.toDate = new Date(
+                            this.missionAllowance.toDate
+                        );
+                        // Đổi kiểu dữ liệu trường gender sang int
+                        this.missionAllowance.status = parseInt(
+                            this.missionAllowance.status
+                        );
 
-                    axios
-                        .put(
-                            `https://localhost:7093/api/MissionAllownce/${this.$route.params.id}`,
-                            this.missionAllowance
-                        )
-                        .then(function (response) {
-                            me.$router.push({ path: "/" });
-                        })
-                        .catch(function (error) {
-                            if (error) {
-                                // Thông báo lỗi
-                                console.log("Lưu bị lỗi");
-                            }
+                        axios
+                            .put(
+                                `https://localhost:7093/api/MissionAllownce/${this.$route.params.id}`,
+                                this.missionAllowance
+                            )
+                            .then(function (response) {
+                                me.$router.push({ path: "/" });
+                                me.loadIndicatorVisible = false;
+                            })
+                            .catch(function (error) {
+                                me.loadIndicatorVisible = false;
+                            });
+
+                        // Bật thông báo
+                        this.setToast({
+                            isToast: true,
+                            toastMessage:
+                                this.language.toastMessage.editSuccess,
+                            toastType: "success",
                         });
-                } else {
+
+                        setTimeout(() => {
+                            this.setToast({
+                                isToast: false,
+                                toastMessage:
+                                    this.language.toastMessage.editSuccess,
+                                toastType: "success",
+                            });
+                        }, 1000);
+                    } else {
+                        this.loadIndicatorVisible = false;
+                    }
+                }
+                // id == 0 là form thêm
+                else {
                     if (this.validateForm()) {
                         // Format dữ liệu ngày tháng
                         this.missionAllowance.requestDate = new Date(
@@ -1567,22 +2040,39 @@ export default {
                             .then(function (response) {
                                 // Đóng và load lại trang
                                 me.$router.push({ path: "/" });
+                                me.loadIndicatorVisible = false;
                             })
                             .catch(function (error) {
                                 if (error) {
-                                    // Thông báo lỗi
-                                    console.log("Lưu bị lỗi");
+                                    me.loadIndicatorVisible = false;
                                 }
                             });
+                        // Bật thông báo
+                        this.setToast({
+                            isToast: true,
+                            toastMessage: this.language.toastMessage.addSuccess,
+                            toastType: "success",
+                        });
+                        setTimeout(() => {
+                            this.setToast({
+                                isToast: false,
+                                toastMessage:
+                                    this.language.toastMessage.addSuccess,
+                                toastType: "success",
+                            });
+                        }, 1000);
+                    } else {
+                        this.loadIndicatorVisible = false;
                     }
                 }
-            } catch (error) {
-                console.log("Lưu thất bại");
-            }
+            } catch (error) {}
         },
     },
     data() {
         return {
+            ErrorMessage,
+            missionDetailText,
+            title,
             dataGridRefName: "data-grid",
             statusDropdown,
             now: Date(),
@@ -1590,8 +2080,8 @@ export default {
             cloneMissionAllownEmployee: [],
             employeeBussinesTravel: true,
             isEditing: false,
-            toDateMessage: ErrorMessage.requiredToDate,
-            fromDateMessage: ErrorMessage.requiredFromDate,
+            toDateMessage: this.language.ErrorMessage.requiredToDate,
+            fromDateMessage: this.language.ErrorMessage.requiredFromDate,
             missionAllowance: {
                 organizationUnitID: "",
                 organizationUnitName: "",
@@ -1651,16 +2141,16 @@ export default {
             showEditPopup: false,
             webTitle: "",
             employeeKeyword: "",
-            employeePageSize: 10,
+            employeePageSize: 300,
             employeePageNumber: 1,
             supportNameKeyword: "",
-            supportNamePageSize: 10,
+            supportNamePageSize: 300,
             supportNamePageNumber: 1,
             approvalNameKeyword: "",
-            approvalNamePageSize: 10,
+            approvalNamePageSize: 300,
             approvalNamePageNumber: 1,
             relationShipNameKeyword: "",
-            relationShipNamePageSize: 10,
+            relationShipNamePageSize: 300,
             relationShipNamePageNumber: 1,
             listEmployee: [],
             listEmployeeTotal: 0,
@@ -1692,6 +2182,9 @@ export default {
             deleteEmployeeID: "",
             popupMultipleDelete: false,
             popupMessage,
+            loadIndicatorVisible: false,
+            indicatorUrl:
+                "https://js.devexpress.com/Content/data/loadingIcons/rolling.svg",
         };
     },
 };

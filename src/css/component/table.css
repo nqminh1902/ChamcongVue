@@ -1,3 +1,6 @@
+.dx-freespace-row > td{
+    display: none;
+}
 .dx-row.dx-column-lines.dx-header-row{
     height: 48px;
     background-color: #F5F5F5;

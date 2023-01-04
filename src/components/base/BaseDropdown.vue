@@ -37,6 +37,8 @@
     </div>
 </template>
 <script>
+import { useStore } from "vuex";
+import { computed } from "vue";
 export default {
     name: "BaseDropdownPagin",
     props: {
@@ -45,9 +47,25 @@ export default {
         choose: Array,
         class: String,
     },
+    setup() {
+        // Khai báo các state từ vuex
+        const store = useStore();
+        const language = computed(() => store.state.resource);
+
+        // Khai báo các hàm gọi đến mutations
+        function changeLanguage_v2(payload) {
+            store.commit("changeLanguage_v2", payload);
+        }
+
+        return { changeLanguage_v2, language };
+    },
     mounted() {
+        /**
+         * Thực hiện Thực hiện gán các giá trị tương ứng vào dropdown tùy thuộc vào ID
+         **  Author: Nguyễn Quang Minh(04/01/2023)
+         */
         if (this.id == "timeKeeping") {
-            this.currentPage = "Chấm công";
+            this.currentPage = this.language.dropdownValue.timeKeepingText;
             this.paginationClass = "timeKeeping";
         }
         if (this.id == "shift") {
@@ -80,6 +98,55 @@ export default {
         currentPage() {
             this.$emit("pageSize", this.currentPage);
         },
+        /**
+         * Thực hiện xử lý dropdown các dropdown mỗi khi đổi ngôn ngữ
+         **  Author: Nguyễn Quang Minh(04/01/2023)
+         */
+        list() {
+            this.choosePage = this.language.dropdownValue.orderManagement[4];
+            this.pageSize = this.list;
+            if (this.id == "timeKeeping") {
+                this.currentPage = this.language.dropdownValue.timeKeepingText;
+                this.paginationClass = "timeKeeping";
+            }
+            if (this.id == "shift") {
+                this.currentPage = this.language.dropdownValue.shiftText;
+                this.paginationClass = "timeKeeping";
+            }
+            if (this.id == "orderManagement") {
+                this.currentPage =
+                    this.language.dropdownValue.orderManagementText;
+                this.paginationClass = "orderManagement";
+            }
+            if (this.id == "report") {
+                this.currentPage = this.language.dropdownValue.reportText;
+                this.paginationClass = "report";
+            }
+            if (this.id == "status-dropdown") {
+                this.pageSize = this.choose;
+                this.currentPage = this.pageSize[0];
+                this.paginationClass = "status-dropdown";
+                this.choosePage = this.language.dropdownValue.status[0];
+            }
+            if (this.id == "pageSize") {
+                this.pageSize = this.choose;
+                this.currentPage = this.pageSize[0];
+                this.paginationClass = "pageSize";
+                this.choosePage = "15";
+            }
+        },
+        /**
+         * Thực hiện xử lý dropdown trạng thái mỗi khi đổi ngôn ngữ
+         **  Author: Nguyễn Quang Minh(04/01/2023)
+         */
+        choose() {
+            if (this.id == "status-dropdown") {
+                this.pageSize = this.choose;
+                this.currentPage = this.pageSize[0];
+                this.paginationClass = "status-dropdown";
+                this.choosePage = this.language.dropdownValue.status[0];
+            }
+        },
     },
     methods: {
         /**
@@ -111,7 +178,7 @@ export default {
             currentPage: "",
             active: "active",
             paginationClass: "",
-            choosePage: "Đề nghị đi công tác",
+            choosePage: this.language.dropdownValue.orderManagement[4],
         };
     },
 };

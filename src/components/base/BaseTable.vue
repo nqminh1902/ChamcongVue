@@ -13,10 +13,10 @@
         :show-borders="border"
         :ref="dataGridRefName"
         :height="height"
-        noDataText="Không có bản ghi"
+        :noDataText="language.missionDetailText.noData"
     >
         <DxScrolling row-rendering-mode="infinite" />
-        <DxPaging :page-size="pageSize" />
+        <DxPaging :enabled="false" :page-size="pageSize" />
         <DxSelection
             v-if="isEditing"
             select-all-mode="allPages"
@@ -96,6 +96,8 @@ import {
     DxScrolling,
     DxPaging,
 } from "devextreme-vue/data-grid";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import BaseStatusVue from "./BaseStatus.vue";
 export default {
     name: "BaseTable",
@@ -125,6 +127,13 @@ export default {
             this.clearAll();
         },
     },
+    setup() {
+        // Khai báo các state từ vuex
+        const store = useStore();
+        const language = computed(() => store.state.resource);
+
+        return { language };
+    },
     methods: {
         /**
          * Thực hiện bỏ chọn tất cả hàng
@@ -135,14 +144,26 @@ export default {
 
             dataGrid.clearSelection();
         },
+        /**
+         * Thực hiện xử lý row của grid đã chọn
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         selectRows(keys, preserve) {
             const dataGrid = this.$refs[this.dataGridRefName].instance;
             dataGrid.selectRows(keys, preserve);
         },
+        /**
+         * Thực hiện xử lý row của grid bỏ chọn
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         deselectRows(keys) {
             const dataGrid = this.$refs[this.dataGridRefName].instance;
             dataGrid.deselectRows(keys);
         },
+        /**
+         * Thực hiện xử lý tích chọn các row của grid dựa theo vị trí id của đơn
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         selectRowsByIndexes(indexes) {
             const dataGrid = this.$refs[this.dataGridRefName].instance;
             dataGrid.selectRowsByIndexes(indexes);
@@ -193,10 +214,31 @@ export default {
             this.$emit("editData", e);
         },
 
+        /**
+         * Thực hiện format ngày
+         **  Author: Nguyễn Quang Minh(26/12/2022)
+         */
         formatDate(data) {
             const date = new Date(data);
-            return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+            return `${
+                date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()
+            }/${
+                date.getMonth() + 1 < 10
+                    ? `0${date.getMonth() + 1}`
+                    : date.getMonth() + 1
+            }/${date.getFullYear()} ${
+                date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+            }:${
+                date.getMinutes() < 10
+                    ? `0${date.getMinutes()}`
+                    : date.getMinutes()
+            }`;
         },
+
+        /**
+         * Thực hiện convert tên của avartar
+         **  Author: Nguyễn Quang Minh(26/12/2022)
+         */
         convertString(str) {
             let temp = "";
             for (let x of str) {

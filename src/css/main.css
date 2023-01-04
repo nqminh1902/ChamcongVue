@@ -68,6 +68,7 @@ a{
 .flex-1{
     flex: 1;
 }
+
 .form-business-travel-description{
     height: 37px;
     display: flex;
@@ -172,6 +173,9 @@ a{
     width: 16px;
     height: 16px;
 }
+.icon-setting.active{
+    background-color: var(--primary);
+}
 .icon-filter{
     -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
     mask-image: url("../assets/icon/iconChamCong.svg");
@@ -220,4 +224,95 @@ a{
 .dx-list-item .avatar{
     width: 40px;
     height: 40px;
+}
+.dx-loadindicator {
+    width: 42px;
+    height: 42px;
+}
+.dx-loadindicator-image{
+    background-image: url(../assets/icon/loading.svg) !important;
+}
+#large-indicator{
+    position: absolute;
+}
+.dragdrop-icon{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -316px -77px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 16px;
+    height: 16px;
+}
+.icon-infor-servise{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -74px -194px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-start-using{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -170px -194px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-new{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -194px -196px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-support-major{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -242px -218px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-useful-knowledge{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -338px -75px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+.icon-online-course{
+    -webkit-mask-image: url("../assets/icon/iconChamCong.svg");
+    mask-image: url("../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -338px -100px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #707070;
+    width: 20px;
+    height: 20px;
+}
+input[type='checkbox']{
+    accent-color: var(--primary)
+}
+  .loader{
+    background-image: url("../assets/icon/loading.svg");
+    background-repeat: no-repeat;
+    background-position: 1px 1px;
+    animation: loading 1s infinite linear; 
+    background-size: 60px 60px;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+  }
+  @keyframes loading {
+    to {
+        transform: rotate(1turn);
+    }
 }

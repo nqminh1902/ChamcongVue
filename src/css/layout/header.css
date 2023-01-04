@@ -63,6 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
 }
 .version{
     color: var(--primary);
@@ -78,7 +79,7 @@
     background-color: transparent;
 }
 .feature-icon:hover{
-    background-color: #ccc;
+    background-color: #eff1f6;
 }
 .icon-bell{
     background-image: url('../../assets/icon/iconChamCong.svg') ;
@@ -88,6 +89,17 @@
     padding: 12px;
     cursor: pointer;
 
+}
+.icon-bell-active{
+    -webkit-mask-image: url("../../assets/icon/iconChamCong.svg");
+    mask-image: url("../../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -264px 0px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: var(--primary);
+    width: 24px;
+    height: 24px;
+    padding: 12px;
+    cursor: pointer;
 }
 .icon-help{
     background-image: url('../../assets/icon/iconChamCong.svg') ;
@@ -105,6 +117,18 @@
     height: 24px;
     padding: 12px;
     cursor: pointer;
+    
+}
+.icon-feature-active{
+  -webkit-mask-image: url("../../assets/icon/iconChamCong.svg");
+  mask-image: url("../../assets/icon/iconChamCong.svg");
+  -webkit-mask-position: -144px -192px;
+  -webkit-mask-repeat: no-repeat;
+  background-color: var(--primary);
+  width: 24px;
+  height: 24px;
+  padding: 12px;
+  cursor: pointer;
 }
 .avatar{
     width: 32px;
@@ -115,7 +139,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    flex-grow: 0;
+    flex-shrink: 0;
 }
 .avatar-name{
     font-size: 16px;
@@ -140,3 +164,323 @@
     line-height: 24px;
     color: white;
 }
+.overlay-2 {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  .notification{
+    width: 400px;
+    height: 200px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 1px 12px rgb(0 0 0 / 40%);
+    animation-fill-mode: both;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: padding-box;
+    border-radius: 4px;
+    right: -16px;
+    bottom: -212px;
+    position: absolute;
+  }
+  .notification::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    transform: rotate(45deg);
+    border: 4px;
+  }
+  .icon-no-notification{
+    background-image: url(../../assets/icon/icon-no-notification.svg);
+  }
+  .notification-header{
+    width: 100%;
+    height: 56px;
+    display: flex;
+    padding: 0 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .notification-header-left{
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .notification-header-right{
+    display: flex;
+    align-items: center;
+  }
+  .notifi-option{
+    font-weight: normal;
+    font-size: 14px;
+    color: #121212;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+  .notifi-option:hover{
+    border-radius: 30px;
+    background-color: #eff1f6;
+  }
+  .icon-dropdown-sm{
+    background-image: url("../../assets/icon/iconChamCong.svg");
+    background-position:-310px -242px;
+    width: 20px;
+    height: 20px;
+  }
+  .icon-option{
+    background-image: url("../../assets/icon/iconChamCong.svg");
+    background-position:-287px 2px;
+    width: 20px;
+    height: 20px;
+    padding: 14px;
+  }
+  .icon-option:hover{
+    border-radius: 50%;
+    background-color: #eff1f6;
+  }
+  .feature{
+    width: 244px;
+    height: auto;
+    padding: 8px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 1px 12px rgb(0 0 0 / 40%);
+    animation-fill-mode: both;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: padding-box;
+    border-radius: 4px;
+    right: -11px;
+    bottom: -246px;
+    position: absolute;
+  }
+  .feature::after{
+    content: "";
+    position: absolute;
+    left: 63%;
+    top: -4px;
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    transform: rotate(45deg);
+    border: 4px;
+  }
+  .feature-item{
+    height: 37px;
+    align-items: center;
+    display: flex;
+    padding: 0 5px;
+    cursor: pointer;
+  }
+  .feature-item:hover{
+    background-color: var(--hover);
+    
+  }
+  .account-user{
+    width: 300px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 1px 12px rgb(0 0 0 / 40%);
+    animation-fill-mode: both;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-clip: padding-box;
+    border-radius: 4px;
+    right: -11px;
+    bottom: -488px;
+    position: absolute;
+  }
+  .account-user::after{
+    content: "";
+    position: absolute;
+    left: 89%;
+    top: -4px;
+    width: 14px;
+    height: 14px;
+    background-color: white;
+    transform: rotate(45deg);
+    border: 4px;
+  }
+  .avatar-lg{
+    width: 64px;
+    height: 64px;
+    background-color: #A965DE;
+    border-radius: 50%;
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .user-name{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+  }
+  .user-email{
+    font-size: 13px;
+    color: #666;
+    line-height: 19px;
+    margin-bottom: 16px;
+  }
+  .user-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 16px 0px;
+  }
+  .company-name{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 16px;
+    border-radius: 4px;
+    padding: 0 8px;
+    color: #212121;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 8px;
+  }
+  .company-name:hover{
+    color: #fff;
+    background-color: #2196f3;
+    border: 1px solid #2196f3;
+  }
+  .user-item{
+    width: 100%;
+    height: 40px;
+    line-height: 42px;
+    margin: 0 16px;
+    border-radius: 3px;
+    color: #212121;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .user-item:last-child{
+    margin-bottom: 8px;
+  }
+  .user-item:hover{
+    background-color: #f2f2f2;
+  }
+  .icon-key{
+    background-image: url("../../assets/icon/icon-key.svg");
+    background-repeat: no-repeat;
+    background-position: 9px 6px;
+    width: 40px;
+    height: 40px;
+  }
+  .icon-user{
+    background-image: url("../../assets/icon/icon-user.svg");
+    background-repeat: no-repeat;
+    background-position: 9px 6px;
+    width: 40px;
+    height: 40px;
+  }
+  .icon-security{
+    background-image: url("../../assets/icon/icon-security.svg");
+    background-repeat: no-repeat;
+    background-position: 9px 6px;
+    width: 40px;
+    height: 40px;
+  }
+  .icon-gift{
+    background-image: url("../../assets/icon/icon-gift.svg");
+    background-repeat: no-repeat;
+    background-position: 11px 8px;
+    width: 40px;
+    height: 40px;
+  }
+  .icon-vie{
+    background-image: url("../../assets/icon/icon-vi.svg");
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .icon-eng{
+    background-image: url("../../assets/icon/icon-en.svg");
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .seft-justify{
+    position: absolute;
+    right: 28px;
+  }
+  .icon-logout{
+    background-image: url("../../assets/icon/icon-logout.svg");
+    background-repeat: no-repeat;
+    background-position: 9px 8px;
+    width: 40px;
+    height: 40px;
+  }
+  .user-logout{
+    border-top: 1px solid #e0e0e0;
+    height: 44px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .user-logout:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
+
+  }
+  .user-logout{
+    color: #121212;
+  }
+  .language-item{
+    height: 32px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .language-item:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
+  .language-item span{
+    display: flex;
+    align-items: center;
+  }
+  .language-list{
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    border-radius: 4px;
+    padding: 8px;
+    width: 240px;
+    background-color: white;
+    box-shadow: 0 1px 12px rgb(0 0 0 / 40%);
+  }
+  .icon-check{
+    -webkit-mask-image: url("../../assets/icon/iconChamCong.svg");
+    mask-image: url("../../assets/icon/iconChamCong.svg");
+    -webkit-mask-position: -264px -239px;
+    -webkit-mask-repeat: no-repeat;
+    background-color: #2196f3;
+    width: 24px;
+    height: 24px;
+    padding: 12px;
+    cursor: pointer;
+  }

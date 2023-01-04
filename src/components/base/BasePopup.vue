@@ -20,7 +20,7 @@
                         <div class="header-table">
                             <div class="header-table-left">
                                 <DxTextBox
-                                    placeholder="Tìm kiếm"
+                                    :placeholder="language.placeholder.seacrh"
                                     :width="'320px'"
                                     :height="'36px'"
                                     :element-attr="inputText"
@@ -42,7 +42,9 @@
                                     value-expr="misaCode"
                                     display-expr="organizationUnitName"
                                     :width="360"
-                                    placeholder="Tất cả đơn vị"
+                                    :placeholder="
+                                        language.placeholder.allOganization
+                                    "
                                     :field-template="'text'"
                                 >
                                     <template #imageIcon="{}">
@@ -55,7 +57,10 @@
                                             <DxTextBox
                                                 :show-clear-button="true"
                                                 :value="itemSelectedName"
-                                                placeholder="Chọn đơn vị"
+                                                :placeholder="
+                                                    language.placeholder
+                                                        .allOganization
+                                                "
                                                 @ValueChanged="
                                                     valueOrganization
                                                 "
@@ -78,10 +83,14 @@
                                                     $event
                                                 )
                                             "
-                                            noDataText="Không tìm thấy bản ghi"
+                                            :noDataText="
+                                                language.placeholder.noData
+                                            "
                                         >
                                             <DxSearchEditorOptions
-                                                placeholder="Tìm kiếm"
+                                                :placeholder="
+                                                    language.placeholder.seacrh
+                                                "
                                                 :width="300"
                                             />
                                         </DxTreeView>
@@ -92,7 +101,9 @@
                                     v-if="selectedEmployee.length > 0"
                                 >
                                     <span
-                                        >Đã chọn
+                                        >{{
+                                            language.missionDetailText.selected
+                                        }}
                                         <b>{{
                                             selectedEmployee.length
                                         }}</b></span
@@ -101,7 +112,10 @@
                                         class="marleft-24"
                                         style="color: red; cursor: pointer"
                                         @click="clearSelection"
-                                        >Bỏ chọn</span
+                                        >{{
+                                            language.missionDetailText
+                                                .deSelected
+                                        }}</span
                                     >
                                 </div>
                             </div>
@@ -112,7 +126,7 @@
                             keyExpr="employeeID"
                             :dataSource="employee"
                             :border="true"
-                            :collumn="tableMissionAllownEmployee"
+                            :collumn="language.tableMissionAllownEmployee"
                             :isEditing="true"
                             :isHover="true"
                             :pageSize="pageSize"
@@ -122,7 +136,9 @@
 
                         <div class="content-footer">
                             <div class="total-page">
-                                <p class="marright-6">Tổng số bản ghi</p>
+                                <p class="marright-6">
+                                    {{ language.missionDetailText.totalRecord }}
+                                </p>
                                 <span>{{ totalPage }}</span>
                             </div>
                             <div class="pagination">
@@ -136,11 +152,11 @@
                                 <div class="pagination-table-row marleft-16">
                                     <span
                                         class="pagination-table-row-number marright-6"
-                                        >Từ
+                                        >{{ language.misionListText.from }}
                                         <b>{{
                                             pageSize * (pageNumber - 1) + 1
                                         }}</b>
-                                        đến
+                                        {{ language.misionListText.to }}
                                         <b>
                                             {{
                                                 pageSize * pageNumber >
@@ -151,7 +167,7 @@
                                         </b></span
                                     >
                                     <span class="pagination-table-row-title">
-                                        bản ghi
+                                        {{ language.misionListText.record }}
                                     </span>
                                 </div>
                                 <div class="pagination-button marleft-16">
@@ -180,33 +196,40 @@
                     <div class="modal-footer-left"></div>
                     <div class="modal-footer-right flex-1">
                         <BaseButtonVue
-                            title="Hủy"
+                            :title="language.title.cancel"
                             class="marright-6"
                             @click="onCloseModal"
                         />
                         <BaseButtonVue
                             v-if="id == 'warning'"
                             class="marright-6"
-                            title="Không lưu"
+                            :title="language.title.dontSave"
                             @click="backPage"
                         />
                         <BaseButtonVue
                             class="pri-btn delete-btn"
-                            title="Xóa"
+                            :title="language.title.delete"
                             v-if="id == 'delete' || id == 'deleteMultiple'"
                             @click="deleteMission"
                         />
                         <BaseButtonVue
                             class="pri-btn"
-                            title="Lưu"
+                            :title="language.title.save"
                             v-if="id == 'warning'"
+                            @click="saveForm"
                         />
                         <BaseButtonVue
                             class="pri-btn"
                             :class="selectedEmployee.length == 0 && 'opacity03'"
-                            title="Chọn"
+                            :title="language.title.choose"
                             v-if="id == 'add-employee'"
                             @click="addEmployee"
+                        />
+                        <BaseButtonVue
+                            class="pri-btn"
+                            :title="title"
+                            v-if="id == 'status'"
+                            @click="changeStatus"
                         />
                     </div>
                 </div>
@@ -223,6 +246,8 @@ import {
     DxSearchPanel,
     DxSelection,
 } from "devextreme-vue/data-grid";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import { DxTextBox } from "devextreme-vue/text-box";
 import DxButton from "devextreme-vue/button";
 import DxDropDownBox from "devextreme-vue/drop-down-box";
@@ -260,6 +285,7 @@ export default {
         id: String,
         missionID: String,
         missionDetail: Array,
+        status: Number,
     },
     mounted() {
         if (this.id == "add-employee") {
@@ -267,25 +293,36 @@ export default {
             this.getListOrganization();
         }
     },
+    setup() {
+        const store = useStore();
+        // Khai báo các state từ vuex
+        const language = computed(() => store.state.resource);
+
+        return { language };
+    },
     watch: {
+        /**
+         * Thực hiện xử lý tích chọn các row đã tích khi chuyển trang
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         employee: {
             handler(val) {
                 if (val && val.length > 0) {
                     let indexs = [];
+                    // Lặp qua mảng id nhân viên đã chọn
                     this.selectedRowKeys.forEach((item) => {
+                        // Lấy ra mảng id danh sách nhân viên
                         var ids = this.employee.map((x) => x.employeeID);
+                        // lấy ra vị trí của id đã chọn từ mảng sách nhân viên
                         var index = ids.findIndex((y) => y == item);
+                        // Nếu có thì thêm vị tri vào mảng
                         if (index != -1) {
                             indexs.push(index);
                         }
                     });
                     var me = this;
                     var time = 300;
-                    if (this.pageSize == 50) {
-                        time = 1000;
-                    } else if (this.pageSize == 100) {
-                        time = 2000;
-                    }
+                    // Gọi tới hàm và truyền mảng vị trí id đã tích chọn
                     setTimeout(() => {
                         me.$refs["employeeGrid"] &&
                             me.$refs["employeeGrid"].selectRowsByIndexes(
@@ -297,10 +334,25 @@ export default {
         },
     },
     methods: {
+        /**
+         * Thực hiện xử lý đổi trạng thái
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
+        changeStatus() {
+            this.$emit("acceptChange", this.status);
+        },
+        /**
+         * Thực hiện xử lý đóng mở popup danh sách nhân viên
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         onCloseModal() {
             this.$emit("closeModal");
         },
 
+        /**
+         * Thực hiện xử lý trở về trang cũ
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         backPage() {
             this.$router.push({ path: "/" });
         },
@@ -310,46 +362,51 @@ export default {
          **  Author: Nguyễn Quang Minh(26/12/2022)
          */
         selectEntity(e) {
-            // Kiểm tra có phải next trang không
-            if (this.isNextPage) {
-                // Tích chọn thêm hàng
-                if (e.currentSelectedRowKeys.length > 0) {
-                    // Thêm id hàng đã tích thêm vào mảng
-                    this.selectedRowKeys.push(e.currentSelectedRowKeys[0]);
+            // Tích chọn thêm hàng
+            if (e.currentSelectedRowKeys.length > 0) {
+                // Thêm id hàng đã tích thêm vào mảng
+                this.selectedRowKeys = [
+                    ...this.selectedRowKeys,
+                    ...e.currentSelectedRowKeys,
+                ];
 
-                    // Lọc những id bi trùng khỏi mảng
-                    this.selectedRowKeys = this.selectedRowKeys.reduce(
-                        function (a, b) {
-                            if (a.indexOf(b) < 0) a.push(b);
-                            return a;
-                        },
-                        []
+                // Lọc những id bi trùng khỏi mảng
+                this.selectedRowKeys = this.selectedRowKeys.reduce(function (
+                    a,
+                    b
+                ) {
+                    if (a.indexOf(b) < 0) a.push(b);
+                    return a;
+                },
+                []);
+                // Thêm employee vào mảng
+                for (let x of e.selectedRowsData) {
+                    var find = this.selectedEmployee.find(
+                        (y) => x.employeeID == y.employeeID
                     );
-                    // Thêm employee vào mảng
-                    for (let x of e.selectedRowsData) {
-                        var find = this.selectedEmployee.find(
-                            (y) => x.employeeID == y.employeeID
-                        );
-                        if (find == undefined) {
-                            this.selectedEmployee.push(x);
-                        }
+                    if (find == undefined) {
+                        this.selectedEmployee.push(x);
                     }
                 }
+            }
+            // Kiểm tra có phải next trang không
+            if (this.isNextPage) {
                 // Bỏ tích đã chọn
                 if (e.currentDeselectedRowKeys.length > 0) {
                     // Lọc bỏ id đã tích
-                    this.selectedRowKeys = this.selectedRowKeys.filter(
-                        (item) => item !== e.currentDeselectedRowKeys[0]
-                    );
-                    // Lọc bỏ employee có employeeID đó khỏi mảng
-                    this.selectedEmployee = this.selectedEmployee.filter(
-                        (item) => {
-                            return (
-                                item.employeeID != e.currentDeselectedRowKeys
-                            );
-                        }
-                    );
+                    e.currentDeselectedRowKeys.forEach((x) => {
+                        this.selectedRowKeys = this.selectedRowKeys.filter(
+                            (item) => item !== x
+                        );
+                        // Lọc bỏ employee có employeeID đó khỏi mảng
+                        this.selectedEmployee = this.selectedEmployee.filter(
+                            (item) => {
+                                return item.employeeID != x;
+                            }
+                        );
+                    });
                 }
+                // Nếu mảng có giá trị thì hiện số bản ghi đã chọn
                 if (this.selectedEmployee.length > 0) {
                     this.isSelected = true;
                 } else {
@@ -359,17 +416,30 @@ export default {
                 this.isNextPage = true;
             }
         },
+
+        /**
+         * Thực hiện xử lý xóa các hàng đã chọn
+         **  Author: Nguyễn Quang Minh(27/12/2022)
+         */
         clearSelection() {
             this.isClear = !this.isClear;
             (this.selectedEmployee = []), (this.selectedRowKeys = []);
         },
+
+        /**
+         * Thực hiện xử lý lấy dữ liệu đã chọn từ tree-view
+         **  Author: Nguyễn Quang Minh(22/12/2022)
+         */
         treeView_itemSelectionChanged(e) {
+            // Lấy ra misacode đơn vị đã chọn
             this.itemSelectedId = e.component.getSelectedNodeKeys();
             let selected = e.component.getSelectedNodes();
             let value = { ...selected[0] };
 
+            // Lấy ra text
             this.itemSelectedName = value.text;
             if (this.itemSelectedName) {
+                // Lấy ra id của đơn vị đã chọn rồi gọi loadData tìm đơn vị đã chọn
                 const selectedOrganization = this.organization.filter(
                     (item) => {
                         return item.misaCode == value.key;
@@ -377,9 +447,15 @@ export default {
                 );
                 this.currentOrganization =
                     selectedOrganization[0].organizationUnitID;
+                this.pageNumber = 1;
                 this.onLoadData();
             }
         },
+
+        /**
+         * Thực hiện xử lý lấy dữ liệu danh sách đơn vị
+         **  Author: Nguyễn Quang Minh(22/12/2022)
+         */
         getListOrganization() {
             try {
                 axios
@@ -388,10 +464,41 @@ export default {
                         this.organization = response.data;
                     })
                     .catch((error) => {
-                        console.log("Lấy đơn vị thất bại");
+                        this.$store.commit("setToast", {
+                            isToast: true,
+                            toastMessage:
+                                this.language.toastMessage.messageFail,
+                            toastType: "warning",
+                        });
+                        setTimeout(() => {
+                            this.$store.commit("setToast", {
+                                isToast: false,
+                                toastMessage:
+                                    this.language.toastMessage.messageFail,
+                                toastType: "warning",
+                            });
+                        }, 2000);
                     });
-            } catch (error) {}
+            } catch (error) {
+                this.$store.commit("setToast", {
+                    isToast: true,
+                    toastMessage: this.language.toastMessage.messageFail,
+                    toastType: "warning",
+                });
+                setTimeout(() => {
+                    this.$store.commit("setToast", {
+                        isToast: false,
+                        toastMessage: this.language.toastMessage.messageFail,
+                        toastType: "warning",
+                    });
+                }, 2000);
+            }
         },
+
+        /**
+         * Thực hiện xử lý lấy dữ liệu danh sách nhân viên
+         **  Author: Nguyễn Quang Minh(20/12/2022)
+         */
         onLoadData() {
             try {
                 axios
@@ -401,16 +508,47 @@ export default {
                         pageSize: this.pageSize,
                         pageNumber: this.pageNumber,
                         employeeIDs: this.missionDetail,
+                        getEmployeeIDs: [],
                     })
                     .then((response) => {
                         this.employee = response.data.data;
                         this.totalPage = response.data.totalCount;
                     })
                     .catch((error) => {
-                        console.log("Lỗi lấy dữ liệu");
+                        this.$store.commit("setToast", {
+                            isToast: true,
+                            toastMessage:
+                                this.language.toastMessage.messageFail,
+                            toastType: "warning",
+                        });
+                        setTimeout(() => {
+                            this.$store.commit("setToast", {
+                                isToast: false,
+                                toastMessage:
+                                    this.language.toastMessage.messageFail,
+                                toastType: "warning",
+                            });
+                        }, 2000);
                     });
-            } catch (error) {}
+            } catch (error) {
+                this.$store.commit("setToast", {
+                    isToast: true,
+                    toastMessage: this.language.toastMessage.messageFail,
+                    toastType: "warning",
+                });
+                setTimeout(() => {
+                    this.$store.commit("setToast", {
+                        isToast: false,
+                        toastMessage: this.language.toastMessage.messageFail,
+                        toastType: "warning",
+                    });
+                }, 2000);
+            }
         },
+        /**
+         * Thực hiện xử lý bỏ chọn đơn vị đã chọn
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         valueOrganization(e) {
             if (e.value == "" && e.previousValue != "") {
                 this.currentOrganization = "";
@@ -418,6 +556,10 @@ export default {
                 this.onLoadData();
             }
         },
+        /**
+         * Thực hiện xử lý xóa nhiều bản ghi đã chọn
+         **  Author: Nguyễn Quang Minh(25/12/2022)
+         */
         deleteMission() {
             const me = this;
             if (this.id == "deleteMultiple") {
@@ -431,11 +573,53 @@ export default {
                         )
                         .then((response) => {
                             me.onCloseModal();
+                            this.$store.commit("setToast", {
+                                isToast: true,
+                                toastMessage:
+                                    this.language.toastMessage.deleteSuccess,
+                                toastType: "success",
+                            });
+                            setTimeout(() => {
+                                this.$store.commit("setToast", {
+                                    isToast: false,
+                                    toastMessage:
+                                        this.language.toastMessage
+                                            .deleteSuccess,
+                                    toastType: "success",
+                                });
+                            }, 2000);
                         })
                         .catch((error) => {
-                            console.log("Lỗi xóa");
+                            this.$store.commit("setToast", {
+                                isToast: true,
+                                toastMessage:
+                                    this.language.toastMessage.deleteFail,
+                                toastType: "warning",
+                            });
+                            setTimeout(() => {
+                                this.$store.commit("setToast", {
+                                    isToast: false,
+                                    toastMessage:
+                                        this.language.toastMessage.deleteFail,
+                                    toastType: "warning",
+                                });
+                            }, 2000);
                         });
-                } catch (error) {}
+                } catch (error) {
+                    this.$store.commit("setToast", {
+                        isToast: true,
+                        toastMessage: this.language.toastMessage.messageFail,
+                        toastType: "warning",
+                    });
+                    setTimeout(() => {
+                        this.$store.commit("setToast", {
+                            isToast: false,
+                            toastMessage:
+                                this.language.toastMessage.messageFail,
+                            toastType: "warning",
+                        });
+                    }, 2000);
+                }
             }
         },
         /**
@@ -449,8 +633,13 @@ export default {
                     : this.pageSize * this.pageNumber
             } `;
         },
+        /**
+         * Thực hiện xử lý Khi tìm kiếm
+         **  Author: Nguyễn Quang Minh(22/10/2022)
+         */
         valueChanged(e) {
             this.keyWord = e.value;
+            this.pageNumber = 1;
             this.onLoadData();
         },
         /**
@@ -475,14 +664,30 @@ export default {
                 this.onLoadData();
             }
         },
+        /**
+         * Thực hiện xử lý Khi đổi số bản ghi trên 1 trang
+         **  Author: Nguyễn Quang Minh(22/10/2022)
+         */
         onChangePageSize(e) {
             this.pageSize = e;
+            this.pageNumber = 1;
             this.onLoadData();
         },
+        /**
+         * Thực hiện xử lý Khi ấn chọn các nhân viên đi làm cùng
+         **  Author: Nguyễn Quang Minh(23/10/2022)
+         */
         addEmployee() {
             if (this.selectedEmployee.length > 0) {
                 this.$emit("employeeList", this.selectedEmployee);
             }
+        },
+        /**
+         * Thực hiện xử lý Khi ấn Lưu from
+         **  Author: Nguyễn Quang Minh(4/01/2022)
+         */
+        saveForm() {
+            this.$emit("onSave");
         },
     },
     data() {
